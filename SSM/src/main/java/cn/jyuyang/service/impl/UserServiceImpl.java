@@ -6,6 +6,8 @@ import cn.jyuyang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -17,5 +19,15 @@ public class UserServiceImpl implements UserService {
      */
     public User findById(Integer id) {
         return userMapper.findById(id);
+    }
+
+    /**
+     * 查询所有用户信息
+     *
+     * @return 用户数组
+     */
+    @Override
+    public List<User> findAll() {
+        return userMapper.findAll();
     }
 }
