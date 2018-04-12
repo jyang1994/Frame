@@ -7,15 +7,36 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <title></title>
 </head>
 <body>
+
     <div class="container">
         <h3>商品列表</h3>
+
         <c:if test="${not empty message}">
             <div class="alert alert-success">${message}</div>
         </c:if>
+        <div class="well-sm">
+            <form  class="form-inline">
+                <input type="text" name="productName" class="form-control" placeholder="商品名称" value="${param.productName}">
+                <input type="text" name="place" class="form-control" placeholder="产地" value="${param.place}">
+                <input type="text" name="minPrice" class="form-control" placeholder="最低价格" value="${param.minPrice}">
+                <input type="text" name="maxPrice" class="form-control" placeholder="最高价格" value="${param.maxPrice}">
+
+                <select name="typeId" class="form-control">
+                    <option value="">所属分类</option>
+                    <c:forEach items="${productTypeList}" var="type">
+                        <option value="${type.id}" ${param.typeId == type.id ? 'selected' : ''}>${type.typeName}</option>
+                    </c:forEach>
+                </select>
+                <button class="btn btn-default">搜索</button>
+
+            </form>
+
+        </div>
+
         <a href="/product/new" class="btn btn-primary pull-right">添加商品</a>
         <table class="table">
             <thead>
@@ -32,7 +53,7 @@
                 <c:forEach items="${productPageInfo.list}" var="product">
 
                     <tr>
-                        <th><a href="/product/${product.id}">${product.productName}</th>
+                        <th><a href="/product/${product.id}">${product.productName}</a></th>
                         <td>${product.price}</td>
                         <td>${product.marketPrice}</td>
                         <td>${product.place}</td>
@@ -47,22 +68,22 @@
             </tbody>
 
         </table>
-        <ul id="pagination-demo" class="pagination pull-right"></ul>
+        <ul id="pagination" class="pagination pull-right"></ul>
     </div>
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/bootstrap.js"></script>
-    <script src="/static/js/jquery.twbsPagination.js"></script>
+    <script src="/static/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.js"></script>
+    <script src="/static/plugins/jQuery/jquery.twbsPagination.min.js"></script>
     <script>
         $(function(){
-
-            $("#pagination-demo").twbsPagination({
+            $("#pagination").twbsPagination({
                 totalPages: ${productPageInfo.pages},
                 visiblePages: 10,
                 first:"首页",
                 last:"末页",
                 prev:"上一页",
                 next:"下一页",
-                href:"?p={{number}}"
+                href:"?productName="+encodeURIComponent('${param.productName}')
+                +"&place="+encodeURIComponent('${param.place}')+"&minPrice=${param.minPrice}&maxPrice=${param.maxPrice}&typeId=${param.typeId}&p={{number}}"
             });
             $(".delLink").click(function () {
                 var id = $(this).attr("rel");
@@ -72,4 +93,5 @@
             });
         })
     </script>
+</body>
 </html>

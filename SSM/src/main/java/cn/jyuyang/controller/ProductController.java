@@ -13,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/product")
@@ -31,17 +33,33 @@ public class ProductController {
     }
 
     @GetMapping
-    public String findAllWithType(@RequestParam(defaultValue = "1",name="p",required = false)
-                                              Integer pageNo, Model model){
-        PageInfo<Product> productPageInfo = productService.findAllWithType(pageNo);
+    public String findAllWithType(
+                                    @RequestParam(defaultValue = "1",name="p",required = false) Integer pageNo,
+                                    @RequestParam(required = false) String productName,
+                                    @RequestParam(required = false) String place,
+                                    @RequestParam(required = false) Float minPrice,
+                                    @RequestParam(required = false) Float maxPrice,
+                                    @RequestParam(required = false) Integer typeId,
+                                               Model model){
+        Map<String,Object> maplist = new HashMap<>();
+        maplist.put("productName",productName);
+        maplist.put("place",place);
+        maplist.put("minPrice",minPrice);
+        maplist.put("maxPrice",maxPrice);
+        maplist.put("typeId",typeId);
+
+        PageInfo<Product> productPageInfo = productService.findAllProductTypeAndParam(pageNo,maplist);
+        List<ProductType> productTypeList = productService.findAllProductType();
         model.addAttribute("productPageInfo",productPageInfo);
+        model.addAttribute("productTypeList",productTypeList);
+
         return "product/productlist";
     }
 
     @GetMapping("/new")
     public String findAllProductType(Model model){
         List<ProductType> productTypeList = productService.findAllProductType();
-        System.out.println(productTypeList.size());
+
         model.addAttribute("productTypeList",productTypeList);
         return "product/new";
     }
