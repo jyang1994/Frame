@@ -23,17 +23,17 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="/static/dist/img/default-avatar.png" class="user-image" alt="User Image">
-                        <span class="hidden-xs">李美苏</span>
+                        <img src="/static/dist/img/logo.png" class="user-image" alt="User Image">
+                        <span class="hidden-xs">jyang</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="/static/dist/img/default-avatar.png" class="img-circle" alt="User Image">
+                            <img src="/static/dist/img/logo.png" class="img-circle" alt="User Image">
 
                             <p>
-                                李美苏
-                                <small>海外事业部</small>
+                                jyang
+                                <small>董事会</small>
                             </p>
                         </li>
                         <!-- Menu Footer-->
