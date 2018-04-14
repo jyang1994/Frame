@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TMS - 系统管理 - 权限管理</title>
+    <title>TMS - 系统管理 - 帐号管理</title>
     <%@include file="../../include/css.jsp"%>
     <link rel="stylesheet" href="/static/plugins/treegrid/css/jquery.treegrid.css">
 </head>
@@ -18,9 +18,8 @@
     <!-- =============================================== -->
 
     <jsp:include page="../../include/sider.jsp">
-        <jsp:param name="menu" value="manage_permission"/>
+        <jsp:param name="menu" value="account_roles"/>
     </jsp:include>
-
     <!-- =============================================== -->
 
     <!-- 右侧内容部分 -->
@@ -28,7 +27,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                权限管理
+                帐号管理
             </h1>
         </section>
 
@@ -36,29 +35,37 @@
         <section class="content">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">权限列表</h3>
+                    <h3 class="box-title">帐号列表</h3>
                     <div class="box-tools">
-                        <a href="/manage/permission/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增权限</a>
+                        <a href="/manage/account/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增帐号</a>
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table tree">
+                    <table class="table">
                         <thead>
                         <tr>
-                            <th>权限名称</th>
-                            <th>权限代号</th>
-                            <th>类型</th>
-                            <th>#</th>
+                            <th>手机号码</th>
+                            <th>锁定状态</th>
+                            <th>禁用状态</th>
+                            <th>角色类型</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${permissionList}" var="permission">
-                            <tr class="treegrid-${permission.id} treegrid-parent-${permission.parentId == 0 ? '':permission.parentId} treegrid-expanded">
+                        <c:forEach items="${accountList}" var="account">
+                            <tr >
 
-                                <td>${permission.permissionName}</td>
-                                <td>${permission.permissionCode}</td>
-                                <td>${permission.url}</td>
-                                <td>${permission.permissionType}</td>
+                                <td>${account.username}</td>
+                                <td>${account.accLock == 1 ? "正常":"锁定"}</td>
+                                <td>${account.disable == 1 ? "正常":"禁用"}</td>
+                                <td><c:forEach items="${account.accountRolesKeysList}" var="accountRoles">
+                                    <c:forEach items="${accountRoles.rolesList}" var="roles" >
+                                        ${roles.roleName}
+                                    </c:forEach>
+                                </c:forEach>
+
+                                </td>
+                                <td><a href="/manage/account/edit/${account.id}">修改</a> <a href="/manage/account/del/${account.id}">删除</a></td>
 
                             </tr>
 
@@ -78,9 +85,7 @@
 <script src="/static/plugins/treegrid/js/jquery.treegrid.min.js"></script>
 <script src="/static/plugins/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
 <script>
-    $(function () {
-        $('.tree').treegrid();
-    });
+
 </script>
 </body>
 </html>

@@ -1,12 +1,26 @@
 package cn.jyuyang.tms.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * account
  * @author 
  */
 public class Account implements Serializable {
+    public List<AccountRolesKey> getAccountRolesKeysList() {
+        return accountRolesKeysList;
+    }
+
+    public void setAccountRolesKeysList(List<AccountRolesKey> accountRolesKeysList) {
+        this.accountRolesKeysList = accountRolesKeysList;
+    }
+
+    /**
+     * 查找对应的account-roles表
+     */
+    private List<AccountRolesKey> accountRolesKeysList ;
+
     private Integer id;
 
     private String username;

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TMS - 系统管理 - 权限管理</title>
+    <title>TMS - 系统管理 - 角色管理</title>
     <%@include file="../../include/css.jsp"%>
     <link rel="stylesheet" href="/static/plugins/treegrid/css/jquery.treegrid.css">
 </head>
@@ -18,9 +18,8 @@
     <!-- =============================================== -->
 
     <jsp:include page="../../include/sider.jsp">
-        <jsp:param name="menu" value="manage_permission"/>
+        <jsp:param name="menu" value="roles_permission"/>
     </jsp:include>
-
     <!-- =============================================== -->
 
     <!-- 右侧内容部分 -->
@@ -28,7 +27,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                权限管理
+                角色管理
             </h1>
         </section>
 
@@ -36,33 +35,31 @@
         <section class="content">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">权限列表</h3>
+                    <h3 class="box-title">角色列表</h3>
                     <div class="box-tools">
-                        <a href="/manage/permission/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增权限</a>
+                        <a href="/manage/roles/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增角色</a>
                     </div>
                 </div>
                 <div class="box-body">
                     <table class="table tree">
-                        <thead>
-                        <tr>
-                            <th>权限名称</th>
-                            <th>权限代号</th>
-                            <th>类型</th>
-                            <th>#</th>
-                        </tr>
-                        </thead>
+
                         <tbody>
-                        <c:forEach items="${permissionList}" var="permission">
-                            <tr class="treegrid-${permission.id} treegrid-parent-${permission.parentId == 0 ? '':permission.parentId} treegrid-expanded">
-
-                                <td>${permission.permissionName}</td>
-                                <td>${permission.permissionCode}</td>
-                                <td>${permission.url}</td>
-                                <td>${permission.permissionType}</td>
-
+                        <c:forEach items="${rolesList}" var="roles">
+                            <tr class="success">
+                                <td>角色名称：<strong>${roles.roleName}</strong></td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <c:forEach items="${roles.rolesPermissionKeyList}" var="currRolesPermission">
+                                       <c:forEach items="${currRolesPermission.permissionList}" var="currPermission">
+                                           <i class="fa fa-circle"></i>${currPermission.permissionName}
+                                       </c:forEach>
+                                    </c:forEach>
 
+                                </td>
+                            </tr>
                         </c:forEach>
+
                         </tbody>
                     </table>
                 </div>

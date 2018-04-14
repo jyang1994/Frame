@@ -1,11 +1,16 @@
 package cn.jyuyang.tms.mapper;
 
+import cn.jyuyang.tms.entity.Permission;
 import cn.jyuyang.tms.entity.Roles;
 import cn.jyuyang.tms.entity.RolesExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface RolesMapper {
+    /**
+     * @return 权限对象
+     */
+    List<Roles> findPermissionByRoles(RolesExample example);
     long countByExample(RolesExample example);
 
     int deleteByExample(RolesExample example);

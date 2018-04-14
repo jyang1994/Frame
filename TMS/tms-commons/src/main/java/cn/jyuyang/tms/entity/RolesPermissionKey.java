@@ -1,12 +1,27 @@
 package cn.jyuyang.tms.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * roles_permission
  * @author 
  */
 public class RolesPermissionKey implements Serializable {
+
+
+    public List<Permission> getPermissionList() {
+        return permissionList;
+    }
+
+    public void setPermissionList(List<Permission> permissionList) {
+        this.permissionList = permissionList;
+    }
+
+    /**
+     * 一个角色对应的权限
+     */
+    private List<Permission> permissionList;
     private Integer rolesId;
 
     private Integer permissionId;

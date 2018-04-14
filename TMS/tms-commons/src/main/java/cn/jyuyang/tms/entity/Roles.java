@@ -2,12 +2,24 @@ package cn.jyuyang.tms.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * roles
  * @author 
  */
 public class Roles implements Serializable {
+
+    private List<RolesPermissionKey> rolesPermissionKeyList;
+
+    public List<RolesPermissionKey> getRolesPermissionKeyList() {
+        return rolesPermissionKeyList;
+    }
+
+    public void setRolesPermissionKeyList(List<RolesPermissionKey> rolesPermissionKeyList) {
+        this.rolesPermissionKeyList = rolesPermissionKeyList;
+    }
+
     private Integer id;
 
     private String roleName;

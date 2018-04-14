@@ -7,7 +7,26 @@
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="acc_lock" jdbcType="INTEGER" property="accLock" />
     <result column="disable" jdbcType="INTEGER" property="disable" />
+    <collection property="accountRolesKeysList" ofType="cn.jyuyang.tms.entity.AccountRolesKey">
+      <id column="account_id" jdbcType="INTEGER" property="accountId" />
+      <id column="roles_id" jdbcType="INTEGER" property="rolesId" />
+      <collection property="rolesList" ofType="cn.jyuyang.tms.entity.Roles">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      </collection>
+    </collection>
   </resultMap>
+  <select id="selectAccountAndRoles" parameterType="cn.jyuyang.tms.entity.AccountExample" resultMap="BaseResultMap">
+    SELECT
+      account.*,roles.*
+    FROM
+      account
+      LEFT JOIN account_roles ON account.id = account_roles.account_id
+      LEFT JOIN roles ON roles.id = account_roles.roles_id
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -113,7 +132,7 @@
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{accLock,jdbcType=INTEGER}, #{disable,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="cn.jyuyang.tms.entity.Account">
+  <insert id="insertSelective" parameterType="cn.jyuyang.tms.entity.Account" useGeneratedKeys="true" keyProperty="id">
     insert into account
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
