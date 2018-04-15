@@ -1,5 +1,6 @@
 package cn.jyuyang.tms.controller;
 
+import cn.jyuyang.tms.dto.ResponseBean;
 import cn.jyuyang.tms.entity.Account;
 import cn.jyuyang.tms.entity.Roles;
 import cn.jyuyang.tms.exception.ServiceException;
@@ -8,10 +9,7 @@ import cn.jyuyang.tms.service.RolesPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -25,6 +23,22 @@ public class AccountController {
     @Autowired
     private RolesPermissionService rolesPermissionService;
 
+    /**
+     * 删除账号以及存在的账号和角色关系
+     * @param id
+     * @return ajax
+     */
+    @GetMapping("/{id:\\d+}/del")
+    @ResponseBody
+    public ResponseBean del(@PathVariable Integer id){
+        try {
+            accountService.deleteAccountAndRolesKey(id);
+            return ResponseBean.success();
+        }catch (ServiceException e){
+            return ResponseBean.error(e.getMessage());
+        }
+
+    }
     @GetMapping("/{id:\\d+}/edit")
     public String edit(@PathVariable Integer id,Model model){
         try {

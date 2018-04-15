@@ -1,6 +1,7 @@
 package cn.jyuyang.tms.service.serviceImpl;
 
 import cn.jyuyang.tms.entity.*;
+import cn.jyuyang.tms.exception.ServiceException;
 import cn.jyuyang.tms.mapper.PermissionMapper;
 import cn.jyuyang.tms.mapper.RolesMapper;
 import cn.jyuyang.tms.mapper.RolesPermissionMapper;
@@ -27,7 +28,7 @@ import java.util.List;
 public class RolesPermissionServiceImpl implements RolesPermissionService{
     public static final Logger logger = LoggerFactory.getLogger(RolesPermissionServiceImpl.class);
     @Autowired
-    private PermissionMapper permissionMapper;
+    public PermissionMapper permissionMapper;
 
     @Autowired
     private RolesMapper rolesMapper;
@@ -112,6 +113,59 @@ public class RolesPermissionServiceImpl implements RolesPermissionService{
         RolesExample rolesExample = new RolesExample();
 
         return rolesMapper.findPermissionByRoles(rolesExample);
+    }
+
+    /**
+     * 根据id对应的权限
+     *
+     * @param id
+     * @return 权限的实体对象
+     */
+    @Override
+    public Permission findPermissionById(Integer id) {
+
+       Permission permission = permissionMapper.selectByPrimaryKey(id);
+
+        if (permission == null) {
+            throw new ServiceException("不存在该权限");
+        }
+
+        return permission;
+
+    }
+
+    /**
+     * 更新权限对象
+     *
+     * @param permission
+     */
+    @Override
+    public void updatePermission(Permission permission) {
+        permissionMapper.updateByPrimaryKey(permission);
+    }
+
+    /**
+     * 根据id删除对应的权限
+     * 需要判断id是否作为父权限和是否权限正在使用
+     *
+     * @param id
+     */
+    @Override
+    public void delPermissionById(Integer id) {
+        List<RolesPermissionKey> rolesPermissionKeys = rolesPermissionMapper.selectByPermissionId(id);
+
+        PermissionExample permissionExample = new PermissionExample();
+        permissionExample.createCriteria().andParentIdEqualTo(id);
+        List<Permission> permissionList = permissionMapper.selectByExample(permissionExample);
+
+        if(permissionList.size()!=0){
+            throw new ServiceException("该权限作为父权限存在，暂无法删除！");
+        }
+        if(rolesPermissionKeys.size()!=0) {
+            throw new ServiceException("该权限已被角色使用，暂无法删除！");
+        }
+
+        permissionMapper.deleteByPrimaryKey(id);
     }
 
 

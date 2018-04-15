@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TMS - 系统管理 - 新增帐号</title>
+    <title>TMS - 系统管理 - 修改权限</title>
     <%@include file="../../include/css.jsp"%>
 </head>
 <body class="hold-transition skin-purple sidebar-mini">
@@ -17,7 +17,7 @@
     <!-- =============================================== -->
 
     <jsp:include page="../../include/sider.jsp">
-        <jsp:param name="menu" value="account_roles"/>
+        <jsp:param name="menu" value="manage_permission"/>
     </jsp:include>
 
     <!-- =============================================== -->
@@ -28,7 +28,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                修改帐号
+               修改权限
             </h1>
         </section>
 
@@ -36,48 +36,38 @@
         <section class="content">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">修改帐号</h3>
+                    <h3 class="box-title">修改权限</h3>
                     <div class="box-tools">
-                        <a href="/manage/account/home" class="btn btn-success btn-sm">返回</a>
+                        <a href="/manage/permission/home" class="btn btn-success btn-sm">返回</a>
                     </div>
                 </div>
                 <div class="box-body">
                     <form method="post" id="saveForm">
                         <div class="form-group">
-                            <label>手机号码</label>
-                            <input type="text" value="${acc.username}" name="username" class="form-control">
+                            <label>权限名称</label>
+                            <input type="text" value="${permission.permissionName}" name="permissionName" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>账号密码</label>
-                            <input type="password" value="${acc.password}" name="password" class="form-control">
+                            <label>权限代码</label>
+                            <input type="text" value="${permission.permissionCode}" name="permissionCode" class="form-control">
+                        </div>
+                        <div class="form-group"N】>
+                            <label>URL</label>
+                            <input type="text" value="${permission.url}" name="url" class="form-control">
+                        </div>
+                        <div class="form-group" hidden>
+                            <label>父ID</label>
+                            <input type="text" value="${permission.parentId}" name="parentId" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>锁定状态</label>
-                            <select name="accLock"  class="form-control">
-
-                            <option value="1">正常</option>
-                                <option value="0">锁定</option>
+                            <label>权限类型</label>
+                            <select name="permissionType"  class="form-control">
+                                <option value="菜单">菜单</option>
+                                <option value="按钮">按钮</option>
 
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>禁用状态</label>
-                            <select name="disable" class="form-control">
 
-                                <option value="1">正常</option>
-                                <option value="0">禁用</option>
-
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>角色类型</label>
-                            <select name="rolesId" class="form-control">
-                                <c:forEach items="${rolesList}" var="roles">
-                                    <option value="${roles.id}">${roles.roleName}</option>
-                                </c:forEach>
-
-                            </select>
-                        </div>
                     </form>
                 </div>
                 <div class="box-footer">

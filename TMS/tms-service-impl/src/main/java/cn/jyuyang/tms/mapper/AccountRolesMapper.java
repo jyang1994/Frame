@@ -21,4 +21,6 @@ public interface AccountRolesMapper {
     int updateByExampleSelective(@Param("record") AccountRolesKey record, @Param("example") AccountRolesExample example);
 
     int updateByExample(@Param("record") AccountRolesKey record, @Param("example") AccountRolesExample example);
+
+    void deleteAccountRolesByAccountId(Integer accountId);
 }

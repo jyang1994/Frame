@@ -41,4 +41,9 @@ public interface AccountService {
      * @param rolesId
      */
     void updateAccountAndRoles(Account account, Integer rolesId);
+
+    /**
+     * 删除id对应的账号以及与角色关系数据
+     */
+    void deleteAccountAndRolesKey(Integer accountId);
 }

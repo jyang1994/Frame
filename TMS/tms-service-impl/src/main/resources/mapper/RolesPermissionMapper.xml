@@ -5,6 +5,10 @@
     <id column="roles_id" jdbcType="INTEGER" property="rolesId" />
     <id column="permission_id" jdbcType="INTEGER" property="permissionId" />
   </resultMap>
+
+  <select id="selectByPermissionId" parameterType="Integer" resultType="cn.jyuyang.tms.entity.RolesPermissionKey">
+    SELECT roles_id,permission_id from roles_permission WHERE permission_id = #{id}
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

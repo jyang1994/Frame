@@ -47,8 +47,9 @@
                         <tr>
                             <th>权限名称</th>
                             <th>权限代号</th>
+                            <th>URL</th>
                             <th>类型</th>
-                            <th>#</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -59,7 +60,10 @@
                                 <td>${permission.permissionCode}</td>
                                 <td>${permission.url}</td>
                                 <td>${permission.permissionType}</td>
-
+                                <td>
+                                    <a class="btn btn-primary btn-xs" href="/manage/permission/${permission.id}/edit" title="修改"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-danger btn-xs delLink" rel="${permission.id}" href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>
+                                </td>
                             </tr>
 
                         </c:forEach>
@@ -75,11 +79,26 @@
 <!-- ./wrapper -->
 
 <%@include file="../../include/js.jsp"%>
-<script src="/static/plugins/treegrid/js/jquery.treegrid.min.js"></script>
-<script src="/static/plugins/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+
 <script>
     $(function () {
         $('.tree').treegrid();
+        $(".delLink").click(function () {
+            var id = $(this).attr("rel");
+            layer.confirm("确定删除吗？",function (index) {
+                layer.close(index);
+                $.get("/manage/permission/"+id+ "/del").done(function (result) {
+                    if(result.status=="success"){
+                        layer.msg("删除成功");
+                        history.go(0);
+                    }else{
+                        layer.msg(result.message);
+                    }
+                }).error(function () {
+                    layer.msg("服务器忙！")
+                });
+            })
+        })
     });
 </script>
 </body>

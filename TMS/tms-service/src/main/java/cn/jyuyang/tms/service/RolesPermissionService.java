@@ -46,4 +46,24 @@ public interface RolesPermissionService {
      * @return
      */
     List<Roles> findRolesByPermission();
+
+    /**
+     * 根据id对应的权限
+     * @param id
+     * @return 权限的实体对象
+     */
+    Permission findPermissionById(Integer id);
+
+    /**
+     * 更新权限对象
+     * @param permission
+     */
+    void updatePermission(Permission permission);
+
+    /**
+     * 根据id删除对应的权限
+     * 需要判断id是否作为父权限和是否权限正在使用
+     * @param id
+     */
+    void delPermissionById(Integer id);
 }

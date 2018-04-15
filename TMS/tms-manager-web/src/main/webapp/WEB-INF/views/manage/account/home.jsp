@@ -65,7 +65,10 @@
                                 </c:forEach>
 
                                 </td>
-                                <td><a href="/manage/account/${account.id}/edit">修改</a> <a href="/manage/account/${account.id}/del">删除</a></td>
+                                <td>
+                                    <a class="btn btn-primary btn-xs" href="/manage/account/${account.id}/edit" title="修改"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-danger btn-xs delLink" rel="${account.id}" href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>
+                                </td>
 
                             </tr>
 
@@ -84,8 +87,25 @@
 <%@include file="../../include/js.jsp"%>
 <script src="/static/plugins/treegrid/js/jquery.treegrid.min.js"></script>
 <script src="/static/plugins/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+<script src="/static/plugins/layer/layer.js"></script>
 <script>
+    $(".delLink").click(function () {
+        var id = $(this).attr("rel");
+        layer.confirm("确定要删除吗？",function (index) {
+            layer.close(index);
+            $.get("/manage/account/"+id+"/del").done(function (result) {
 
+                if(result.status == "success"){
+                    layer.msg("删除成功")
+                    history.go(0);
+                }else{
+                    layer.msg(result.message);
+                }
+            }).error(function () {
+                layer.msg("服务器忙！")
+            })
+        })
+    })
 </script>
 </body>
 </html>

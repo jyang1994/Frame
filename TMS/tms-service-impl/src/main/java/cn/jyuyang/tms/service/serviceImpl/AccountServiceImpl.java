@@ -137,5 +137,23 @@ public class AccountServiceImpl implements AccountService{
 
     }
 
+    /**
+     * 删除id对应的账号以及与角色关系数据
+     *
+     * @param accountId
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void deleteAccountAndRolesKey(Integer accountId) {
+        Account account = accountMapper.selectByPrimaryKey(accountId);
+        if(account!=null){
+            accountMapper.deleteByPrimaryKey(accountId);
+            accountRolesMapper.deleteAccountRolesByAccountId(accountId);
+        }else{
+            throw new ServiceException("账号不存在，请核实后重试");
+        }
+
+    }
+
 
 }

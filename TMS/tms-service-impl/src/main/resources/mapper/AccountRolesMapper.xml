@@ -4,7 +4,12 @@
   <resultMap id="BaseResultMap" type="cn.jyuyang.tms.entity.AccountRolesKey">
     <id column="account_id" jdbcType="INTEGER" property="accountId" />
     <id column="roles_id" jdbcType="INTEGER" property="rolesId" />
+
   </resultMap>
+  <delete id="deleteAccountRolesByAccountId" parameterType="java.lang.Integer">
+    DELETE FROM account_roles WHERE account_id = #{id}
+  </delete>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
