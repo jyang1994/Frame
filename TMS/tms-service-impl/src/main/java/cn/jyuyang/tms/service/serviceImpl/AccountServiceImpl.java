@@ -1,9 +1,6 @@
 package cn.jyuyang.tms.service.serviceImpl;
 
-import cn.jyuyang.tms.entity.Account;
-import cn.jyuyang.tms.entity.AccountExample;
-import cn.jyuyang.tms.entity.AccountLoginLog;
-import cn.jyuyang.tms.entity.AccountRolesKey;
+import cn.jyuyang.tms.entity.*;
 import cn.jyuyang.tms.exception.ServiceException;
 import cn.jyuyang.tms.mapper.AccountLoginLogMapper;
 import cn.jyuyang.tms.mapper.AccountMapper;
@@ -99,6 +96,45 @@ public class AccountServiceImpl implements AccountService{
         AccountExample accountExample = new AccountExample();
 
         return accountMapper.selectAccountAndRoles(accountExample);
+    }
+
+    /**
+     * 根据ID查到对应的account对象
+     *
+     * @param id
+     * @return Account
+     */
+    @Override
+    public Account findAccountById(Integer id) {
+
+        Account account = accountMapper.selectByPrimaryKey(id);
+        if(account != null) {
+            return account;
+        }else{
+            throw new ServiceException("不存在对应的账号");
+        }
+
+    }
+
+    /**
+     * 更新account以及对应的角色
+     *
+     * @param account
+     * @param rolesId
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void updateAccountAndRoles(Account account, Integer rolesId) {
+        accountMapper.updateByPrimaryKeySelective(account);
+
+        AccountRolesKey accountRolesKey = new AccountRolesKey();
+        AccountRolesExample accountRolesExample = new AccountRolesExample();
+        accountRolesExample.createCriteria().andAccountIdEqualTo(account.getId());
+
+        accountRolesKey.setRolesId(rolesId);
+        accountRolesKey.setAccountId(account.getId());
+        accountRolesMapper.updateByExample(accountRolesKey,accountRolesExample);
+
     }
 
 

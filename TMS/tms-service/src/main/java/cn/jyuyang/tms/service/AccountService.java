@@ -1,6 +1,7 @@
 package cn.jyuyang.tms.service;
 
 import cn.jyuyang.tms.entity.Account;
+import cn.jyuyang.tms.entity.Roles;
 
 import java.util.List;
 
@@ -26,4 +27,18 @@ public interface AccountService {
      * @return 帐号集合包括对应的角色
      */
     List<Account> findAccountAndRoles();
+
+    /**
+     * 根据ID查到对应的account对象
+     * @return Account
+     * @param id
+     */
+    Account findAccountById(Integer id);
+
+    /**
+     * 更新account以及对应的角色
+     * @param account
+     * @param rolesId
+     */
+    void updateAccountAndRoles(Account account, Integer rolesId);
 }

@@ -38,7 +38,7 @@
         <section class="content">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">新增帐号</h3>
+                    <h3 class="box-title">修改帐号</h3>
                     <div class="box-tools">
                         <a href="/manage/account/home" class="btn btn-success btn-sm">返回</a>
                     </div>
@@ -47,11 +47,29 @@
                     <form method="post" id="saveForm">
                         <div class="form-group">
                             <label>手机号码</label>
-                            <input type="text" name="username" class="form-control">
+                            <input type="text" value="${acc.username}" name="username" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>密码(初始密码：000000)</label>
-                            <input type="password"  name="password" class="form-control">
+                            <label>账号密码</label>
+                            <input type="password" value="${acc.password}" name="password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>锁定状态</label>
+                            <select name="accLock"  class="form-control">
+
+                            <option value="1">正常</option>
+                                <option value="0">锁定</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>禁用状态</label>
+                            <select name="disable" class="form-control">
+
+                                <option value="1">正常</option>
+                                <option value="0">禁用</option>
+
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>角色类型</label>
@@ -62,7 +80,6 @@
 
                             </select>
                         </div>
-
                     </form>
                 </div>
                 <div class="box-footer">

@@ -9,7 +9,7 @@
         <ul class="sidebar-menu">
             <li class="${param.menu == 'home' ? 'active' : ''}"><a href="/home"><i class="fa fa-home"></i> <span>首页</span></a></li>
             <li class="header">系统管理</li>
-            <li class="${param.menu == 'account_roles' ? 'active' : ''}"><a href="/home"><i class="fa fa-circle-o"></i> <span>账号管理</span></a></li>
+            <li class="${param.menu == 'account_roles' ? 'active' : ''}"><a href="/manage/account/home"><i class="fa fa-circle-o"></i> <span>账号管理</span></a></li>
             <li class="${param.menu == 'roles_permission' ? 'active' : ''}"><a href="/manage/roles/home"><i class="fa fa-circle-o"></i> <span>角色管理</span></a></li>
             <li class="${param.menu == 'manage_permission' ? 'active' : ''}"><a href="/manage/permission/home"><i class="fa fa-circle-o"></i> <span>权限管理</span></a></li>
 

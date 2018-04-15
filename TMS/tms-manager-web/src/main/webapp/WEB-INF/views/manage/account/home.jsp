@@ -65,7 +65,7 @@
                                 </c:forEach>
 
                                 </td>
-                                <td><a href="/manage/account/edit/${account.id}">修改</a> <a href="/manage/account/del/${account.id}">删除</a></td>
+                                <td><a href="/manage/account/${account.id}/edit">修改</a> <a href="/manage/account/${account.id}/del">删除</a></td>
 
                             </tr>
 
