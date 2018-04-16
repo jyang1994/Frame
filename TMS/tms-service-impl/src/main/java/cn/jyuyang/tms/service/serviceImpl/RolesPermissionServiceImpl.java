@@ -2,6 +2,7 @@ package cn.jyuyang.tms.service.serviceImpl;
 
 import cn.jyuyang.tms.entity.*;
 import cn.jyuyang.tms.exception.ServiceException;
+import cn.jyuyang.tms.mapper.AccountRolesMapper;
 import cn.jyuyang.tms.mapper.PermissionMapper;
 import cn.jyuyang.tms.mapper.RolesMapper;
 import cn.jyuyang.tms.mapper.RolesPermissionMapper;
@@ -36,6 +37,9 @@ public class RolesPermissionServiceImpl implements RolesPermissionService{
     @Autowired
     private RolesPermissionMapper rolesPermissionMapper;
 
+    @Autowired
+    private AccountRolesMapper accountRolesMapper;
+
     /**
      * 保存新增加的权限
      *
@@ -67,8 +71,7 @@ public class RolesPermissionServiceImpl implements RolesPermissionService{
     public List<Permission> findAllPermission() {
         PermissionExample permissionExample = new PermissionExample();
        // permissionExample.setOrderByClause("parent_id desc");
-        List<Permission> permissionList = permissionMapper.selectByExample(permissionExample);
-        List<Permission> resList = new ArrayList<>();
+        List<Permission> permissionList = permissionMapper.selectByExample(permissionExample);        List<Permission> resList = new ArrayList<>();
         permissionListUtil(permissionList,resList,0);
         return resList;
     }
@@ -166,6 +169,67 @@ public class RolesPermissionServiceImpl implements RolesPermissionService{
         }
 
         permissionMapper.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 根据id查找对应的Roles对象，包括对应的权限集合
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Roles findRolesById(Integer id) {
+        return rolesMapper.findRolesAndPermissionById(id);
+    }
+
+    /**
+     * 更新角色以及所拥有的权限
+     *
+     * @param roles
+     * @param permissionId
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void updateRolesAndRolesPermissionKey(Roles roles, Integer[] permissionId) {
+        rolesMapper.updateByPrimaryKeySelective(roles);
+
+        RolesPermissionExample rolesPermissionExample = new RolesPermissionExample();
+        rolesPermissionExample.createCriteria().andRolesIdEqualTo(roles.getId());
+        rolesPermissionMapper.deleteByExample(rolesPermissionExample);
+
+        for(Integer id : permissionId){
+            RolesPermissionKey rolesPermissionKey = new RolesPermissionKey();
+            rolesPermissionKey.setPermissionId(id);
+            rolesPermissionKey.setRolesId(roles.getId());
+            rolesPermissionMapper.insertSelective(rolesPermissionKey);
+        }
+
+    }
+
+    /**
+     * 根据id删除对应的角色对象
+     *以及对应的权限关系表和对应的账号关系
+     * @param id
+     */
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void delRolesById(Integer id) {
+
+        Roles roles = rolesMapper.selectByPrimaryKey(id);
+        if(roles != null) {
+            rolesMapper.deleteByPrimaryKey(id);
+
+            RolesPermissionExample rolesPermissionExample = new RolesPermissionExample();
+            rolesPermissionExample.createCriteria().andRolesIdEqualTo(id);
+            rolesPermissionMapper.deleteByExample(rolesPermissionExample);
+
+            AccountRolesExample accountRolesExample = new AccountRolesExample();
+            accountRolesExample.createCriteria().andRolesIdEqualTo(id);
+            accountRolesMapper.deleteByExample(accountRolesExample);
+        }else{
+            throw new ServiceException("不存在该用户");
+        }
+
     }
 
 

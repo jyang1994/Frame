@@ -46,7 +46,12 @@
                         <tbody>
                         <c:forEach items="${rolesList}" var="roles">
                             <tr class="success">
-                                <td>角色名称：<strong>${roles.roleName}</strong></td>
+                                <td>
+                                    角色名称：<strong>${roles.roleName}</strong>
+                                    <a class="btn btn-primary btn-xs " href="/manage/roles/${roles.id}/edit" title="修改"><i class="fa fa-pencil"></i></a>
+                                     <a class="btn btn-danger btn-xs delLink" rel="${roles.id}" href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>
+                                </td>
+
                             </tr>
                             <tr>
                                 <td>
@@ -57,7 +62,6 @@
                                     </c:forEach>
 
                                 </td>
-                            </tr>
                         </c:forEach>
 
                         </tbody>
@@ -77,6 +81,23 @@
 <script>
     $(function () {
         $('.tree').treegrid();
+        $(".delLink").click(function () {
+            var id = $(this).attr("rel");
+            layer.confirm("确定要删除吗？",function (index) {
+                layer.close(index);
+                $.get("/manage/roles/" + id + "/del").done(function (result) {
+
+                    if (result.status == "success") {
+                        layer.msg("删除成功")
+                        history.go(0);
+                    } else {
+                        layer.msg(result.message);
+                    }
+                }).error(function () {
+                    layer.msg("服务器忙！")
+                })
+            })
+        })
     });
 </script>
 </body>

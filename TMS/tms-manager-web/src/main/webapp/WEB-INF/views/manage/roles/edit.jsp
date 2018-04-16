@@ -38,7 +38,7 @@
         <section class="content">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">新增角色</h3>
+                    <h3 class="box-title">修改角色</h3>
                     <div class="box-tools">
                         <a href="/manage/roles/home" class="btn btn-success btn-sm">返回</a>
                     </div>
@@ -47,12 +47,13 @@
                     <form method="post" id="saveForm">
                         <div class="form-group">
                             <label>角色名称</label>
-                            <input type="text" name="roleName" class="form-control">
+                            <input type="text" name="roleName" value="${roles.roleName}" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>角色代号</label>
-                            <input type="text" name="roleCode" class="form-control">
+                            <input type="text" name="roleCode" value="${roles.roleCode}" class="form-control">
                         </div>
+
 
                         <table class="table tree">
                             <thead>
@@ -65,16 +66,17 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${permissionList}" var="permission">
-                                <tr value="${permission.parentId}" class="per treegrid-${permission.id} treegrid-parent-${permission.parentId == 0 ? '':permission.parentId} treegrid-expanded">
+                            <c:forEach items="${permissionMap}" var="permission">
+
+                                <tr value="${permission.key.parentId}" class="per treegrid-${permission.key.id} treegrid-parent-${permission.key.parentId == 0 ? '':permission.key.parentId} treegrid-expanded">
 
                                     <th>
-                                        <input type="checkbox" class="check" name="permissionId" value="${permission.id}">
+                                        <input type="checkbox" ${permission.value? 'checked':''} class="check"  name="permissionId" value="${permission.key.id}">
                                     </th>
-                                    <td>${permission.permissionName}</td>
-                                    <td>${permission.permissionCode}</td>
-                                    <td>${permission.url}</td>
-                                    <td>${permission.permissionType}</td>
+                                    <td>${permission.key.permissionName}</td>
+                                    <td>${permission.key.permissionCode}</td>
+                                    <td>${permission.key.url}</td>
+                                    <td>${permission.key.permissionType}</td>
 
                                 </tr>
 
@@ -119,17 +121,17 @@
         // });
 
 
-         $(".check").change(function () {
-             var currId = $(this).val();
+       /* $(".check").change(function () {
+            var currId = $(this).val();
 
-             var str = ".treegrid-parent-" + currId;
+            var str = ".treegrid-parent-" + currId;
 
-             if ($(this).is(":checked")) {
-                 $(str).find("input").prop("checked", true);
-             }else {
-                 $(str).find("input").prop("checked", false);
-             }
-         })
+            if ($(this).is(":checked")) {
+                $(str).find("input").prop("checked", true);
+            }else {
+                $(str).find("input").prop("checked", false);
+            }
+        })*/
 
 
 

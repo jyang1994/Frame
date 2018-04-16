@@ -38,6 +38,17 @@
 
   </select>
 
+  <select id="findRolesAndPermissionById"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+    roles.*,roles_permission.*,permission.*
+    FROM
+    roles
+    LEFT JOIN roles_permission ON roles.id = roles_permission.roles_id
+    LEFT JOIN permission ON roles_permission.permission_id = permission.id
+    WHERE roles.id = #{id}
+
+  </select>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

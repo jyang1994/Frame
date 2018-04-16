@@ -66,4 +66,24 @@ public interface RolesPermissionService {
      * @param id
      */
     void delPermissionById(Integer id);
+
+    /**
+     * 根据id查找对应的Roles对象，包括对应的权限集合
+     * @param id
+     * @return
+     */
+    Roles findRolesById(Integer id);
+
+    /**
+     * 更新角色以及所拥有的权限
+     * @param roles
+     * @param permissionId
+     */
+    void updateRolesAndRolesPermissionKey(Roles roles, Integer[] permissionId);
+
+    /**
+     * 根据id删除对应的角色对象
+     * @param id
+     */
+    void delRolesById(Integer id);
 }
