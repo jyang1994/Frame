@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -36,9 +37,11 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">帐号列表</h3>
+                    <shiro:hasPermission name="account:add">
                     <div class="box-tools">
                         <a href="/manage/account/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增帐号</a>
                     </div>
+                    </shiro:hasPermission>
                 </div>
                 <div class="box-body">
                     <table class="table">
@@ -66,8 +69,12 @@
 
                                 </td>
                                 <td>
-                                    <a class="btn btn-primary btn-xs" href="/manage/account/${account.id}/edit" title="修改"><i class="fa fa-pencil"></i></a>
-                                    <a class="btn btn-danger btn-xs delLink" rel="${account.id}" href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>
+                                    <shiro:hasPermission name="account:edit">
+                                         <a class="btn btn-primary btn-xs" href="/manage/account/${account.id}/edit" title="修改"><i class="fa fa-pencil"></i></a>
+                                    </shiro:hasPermission>
+                                    <shiro:hasPermission name="account:del">
+                                     <a class="btn btn-danger btn-xs delLink" rel="${account.id}" href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>
+                                    </shiro:hasPermission>
                                 </td>
 
                             </tr>

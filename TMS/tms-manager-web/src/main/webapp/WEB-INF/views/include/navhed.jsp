@@ -42,7 +42,7 @@
                                 <a href="#" class="btn btn-default btn-flat">个人设置</a>
                             </div>
                             <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">安全退出</a>
+                                <a href="/logout" class="btn btn-default btn-flat">安全退出</a>
                             </div>
                         </li>
                     </ul>

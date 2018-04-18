@@ -86,4 +86,18 @@ public interface RolesPermissionService {
      * @param id
      */
     void delRolesById(Integer id);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    List<Permission> findPermissionByRolesId(Integer id);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    List<Roles> findRolesByAccountId(Integer id);
 }

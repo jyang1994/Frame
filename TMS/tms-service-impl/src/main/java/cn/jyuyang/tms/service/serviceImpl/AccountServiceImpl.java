@@ -68,6 +68,9 @@ public class AccountServiceImpl implements AccountService{
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public void saveAccountAndRoles(Account account, Integer rolesId) {
+
+        account.setPassword(DigestUtils.md5Hex(account.getPassword()));
+
         AccountExample accountExample = new AccountExample();
         accountExample.createCriteria().andUsernameEqualTo(account.getUsername());
         List<Account> curracc = accountMapper.selectByExample(accountExample);
@@ -153,6 +156,45 @@ public class AccountServiceImpl implements AccountService{
             throw new ServiceException("账号不存在，请核实后重试");
         }
 
+    }
+
+    /**
+     * 根据用户名查找对应的帐号（应该是手机号或者邮箱）
+     *
+     * @param userName
+     * @return
+     */
+    @Override
+    public Account findAccountByUserName(String userName) {
+        AccountExample accountExample = new AccountExample();
+        accountExample.createCriteria().andUsernameEqualTo(userName);
+
+        List<Account> accountList = accountMapper.selectByExample(accountExample);
+        if(accountList != null && !accountList.isEmpty()){
+            return accountList.get(0);
+        }
+        return null;
+    }
+
+    /**
+     * 保存账号登录日志
+     *
+     * @param accountLoginLog
+     */
+    @Override
+    public void saveAccountLoginLog(AccountLoginLog accountLoginLog) {
+        accountLoginLogMapper.insertSelective(accountLoginLog);
+    }
+
+    /**
+     * 根据id查到对应的roles
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Roles> findRolesByAccountId(Integer id) {
+        return accountMapper.findRolesByAccountId(id);
     }
 
 

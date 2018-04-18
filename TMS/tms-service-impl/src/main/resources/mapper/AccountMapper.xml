@@ -235,4 +235,15 @@
       disable = #{disable,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+<!--
+  <resultMap id="accountWithRoles" type="Account" extends="BaseResultMap">
+    <collection property="rolesList" ofType="Roles">
+      <id property="id" column="rolesId"/>
+      <result property="createTime" column="create_time"/>
+      <result property="roleCode" column="role_code"/>
+      <result property="roleName" column="role_name"/>
+      <result property="updateTime" column="update_time"/>
+    </collection>
+  </resultMap>-->
+
 </mapper>

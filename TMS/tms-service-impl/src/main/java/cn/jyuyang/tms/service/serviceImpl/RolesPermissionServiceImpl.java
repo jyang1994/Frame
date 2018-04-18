@@ -232,6 +232,25 @@ public class RolesPermissionServiceImpl implements RolesPermissionService{
 
     }
 
+    /**
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Permission> findPermissionByRolesId(Integer id) {
+
+        return  permissionMapper.findPermissionByRolesId(id);
+    }
+
+    /**
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Roles> findRolesByAccountId(Integer id) {
+        return rolesMapper.findRolesByAccountId(id);
+    }
+
 
     /**
      * 对数组进行递归规律，让兄弟类排在一起

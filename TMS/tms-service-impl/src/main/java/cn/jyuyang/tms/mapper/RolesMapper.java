@@ -34,4 +34,6 @@ public interface RolesMapper {
     int updateByPrimaryKey(Roles record);
 
     Roles findRolesAndPermissionById(Integer id);
+
+    List<Roles> findRolesByAccountId(Integer id);
 }

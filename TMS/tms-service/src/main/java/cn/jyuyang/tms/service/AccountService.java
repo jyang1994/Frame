@@ -1,6 +1,7 @@
 package cn.jyuyang.tms.service;
 
 import cn.jyuyang.tms.entity.Account;
+import cn.jyuyang.tms.entity.AccountLoginLog;
 import cn.jyuyang.tms.entity.Roles;
 
 import java.util.List;
@@ -46,4 +47,24 @@ public interface AccountService {
      * 删除id对应的账号以及与角色关系数据
      */
     void deleteAccountAndRolesKey(Integer accountId);
+
+    /**
+     * 根据用户名查找对应的帐号（应该是手机号或者邮箱）
+     * @param userName
+     * @return
+     */
+    Account findAccountByUserName(String userName);
+
+    /**
+     * 保存账号登录日志
+     * @param accountLoginLog
+     */
+    void saveAccountLoginLog(AccountLoginLog accountLoginLog);
+
+    /**
+     * 根据id查到对应的roles
+     * @param id
+     * @return
+     */
+    List<Roles> findRolesByAccountId(Integer id);
 }

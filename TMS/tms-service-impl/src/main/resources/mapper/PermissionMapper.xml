@@ -11,6 +11,24 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+  <select id="findPermissionByRolesId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+      *
+    FROM
+      permission
+    WHERE
+      id IN (
+        SELECT
+          permission_id
+        FROM
+          roles_permission
+        WHERE
+          roles_id= #{id}
+      )
+  </select>
+
+
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

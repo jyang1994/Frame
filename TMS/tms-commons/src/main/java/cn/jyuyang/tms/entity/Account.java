@@ -16,10 +16,15 @@ public class Account implements Serializable {
         this.accountRolesKeysList = accountRolesKeysList;
     }
 
+
     /**
      * 查找对应的account-roles表
      */
     private List<AccountRolesKey> accountRolesKeysList ;
+    /**
+     * 查找对应的角色
+     */
+    private List<Roles> rolesList;
 
     private Integer id;
 
@@ -32,6 +37,14 @@ public class Account implements Serializable {
     private Integer disable;
 
     private static final long serialVersionUID = 1L;
+
+    public List<Roles> getRolesList() {
+        return rolesList;
+    }
+
+    public void setRolesList(List<Roles> rolesList) {
+        this.rolesList = rolesList;
+    }
 
     public Integer getId() {
         return id;
