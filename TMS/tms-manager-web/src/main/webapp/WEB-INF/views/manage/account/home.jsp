@@ -51,7 +51,8 @@
                             <th>锁定状态</th>
                             <th>禁用状态</th>
                             <th>角色类型</th>
-                            <th>操作</th>
+
+                            <th>操作#</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -98,20 +99,26 @@
 <script>
     $(".delLink").click(function () {
         var id = $(this).attr("rel");
-        layer.confirm("确定要删除吗？",function (index) {
-            layer.close(index);
-            $.get("/manage/account/"+id+"/del").done(function (result) {
+        var loginId ="<shiro:principal property='id'/>";
+        if(id == loginId){
+            layer.msg("不能删除当前登陆账号！");
+        }else{
+            layer.confirm("确定要删除吗？",function (index) {
+                layer.close(index);
+                $.get("/manage/account/" + id + "/del").done(function (result) {
 
-                if(result.status == "success"){
-                    layer.msg("删除成功")
-                    history.go(0);
-                }else{
-                    layer.msg(result.message);
-                }
-            }).error(function () {
-                layer.msg("服务器忙！")
-            })
-        })
+                    if (result.status == "success") {
+                        layer.msg("删除成功")
+                        history.go(0);
+                    } else {
+                        layer.msg(result.message);
+                    }
+                }).error(function () {
+                    layer.msg("服务器忙！")
+                })
+
+             })
+        }
     })
 </script>
 </body>

@@ -37,9 +37,12 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">权限列表</h3>
-                    <div class="box-tools">
-                        <a href="/manage/permission/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增权限</a>
-                    </div>
+                    <shiro:hasPermission name="permission:add">
+                        <div class="box-tools">
+                            <a href="/manage/permission/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增权限</a>
+                        </div>
+
+                    </shiro:hasPermission>
                 </div>
                 <div class="box-body">
                     <table class="table tree">
@@ -61,8 +64,12 @@
                                 <td>${permission.url}</td>
                                 <td>${permission.permissionType}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-xs" href="/manage/permission/${permission.id}/edit" title="修改"><i class="fa fa-pencil"></i></a>
+                                    <shiro:hasPermission name="permission:edit">
+                                        <a class="btn btn-primary btn-xs" href="/manage/permission/${permission.id}/edit" title="修改"><i class="fa fa-pencil"></i></a>
+                                    </shiro:hasPermission>
+                                    <shiro:hasPermission name="permission:del">
                                     <a class="btn btn-danger btn-xs delLink" rel="${permission.id}" href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>
+                                    </shiro:hasPermission>
                                 </td>
                             </tr>
 
