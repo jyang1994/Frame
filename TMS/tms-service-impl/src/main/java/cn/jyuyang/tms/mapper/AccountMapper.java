@@ -3,11 +3,13 @@ package cn.jyuyang.tms.mapper;
 import cn.jyuyang.tms.entity.Account;
 import cn.jyuyang.tms.entity.AccountExample;
 import java.util.List;
+import java.util.Map;
 
 import cn.jyuyang.tms.entity.Roles;
 import org.apache.ibatis.annotations.Param;
 
 public interface AccountMapper {
+    List<Account> selectAccountAndRoles(Map<String,Object> res);
 
     List<Roles> findRolesByAccountId(Integer id);
     /**
@@ -15,7 +17,7 @@ public interface AccountMapper {
      * @param example
      * @return
      */
-    List<Account> selectAccountAndRoles(AccountExample example);
+    /*List<Account> selectAccountAndRoles(AccountExample example);*/
 
     long countByExample(AccountExample example);
 

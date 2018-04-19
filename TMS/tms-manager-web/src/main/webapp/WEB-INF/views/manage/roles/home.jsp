@@ -63,7 +63,7 @@
                                 <td>
                                     <c:forEach items="${roles.rolesPermissionKeyList}" var="currRolesPermission">
                                        <c:forEach items="${currRolesPermission.permissionList}" var="currPermission">
-                                           <i class="fa fa-circle"></i>${currPermission.permissionName}
+                                           <i class="fa fa-circle"></i>${currPermission.permissionName}&emsp;
                                        </c:forEach>
                                     </c:forEach>
 

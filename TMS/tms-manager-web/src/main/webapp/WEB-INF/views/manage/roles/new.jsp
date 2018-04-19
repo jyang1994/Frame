@@ -119,17 +119,17 @@
         // });
 
 
-         $(".check").change(function () {
-             var currId = $(this).val();
+        $(".check").change(function () {
+            var currId = $(this).val();
 
-             var str = ".treegrid-parent-" + currId;
+            var str = ".treegrid-parent-" + currId;
 
-             if ($(this).is(":checked")) {
-                 $(str).find("input").prop("checked", true);
-             }else {
-                 $(str).find("input").prop("checked", false);
-             }
-         })
+            if ($(this).is(":checked")) {
+                $(str).find("input").prop("checked", true);
+            }else {
+                $(str).find("input").prop("checked", false);
+            }
+        })
 
 
 

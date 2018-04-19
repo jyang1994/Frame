@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AccountServiceImpl implements AccountService{
@@ -92,14 +93,23 @@ public class AccountServiceImpl implements AccountService{
     }
 
     /**
+     * @param requestParam
      * @return 帐号集合包括对应的角色
      */
     @Override
+    public List<Account> findAccountAndRoles(Map<String, Object> requestParam) {
+
+
+        return accountMapper.selectAccountAndRoles(requestParam);
+    }
+
+
+   /* @Override
     public List<Account> findAccountAndRoles() {
         AccountExample accountExample = new AccountExample();
 
         return accountMapper.selectAccountAndRoles(accountExample);
-    }
+    }*/
 
     /**
      * 根据ID查到对应的account对象
@@ -195,6 +205,16 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public List<Roles> findRolesByAccountId(Integer id) {
         return accountMapper.findRolesByAccountId(id);
+    }
+
+    /**
+     * 根据username和对应的角色查找搜索帐号
+     *
+     * @return
+     */
+    @Override
+    public List<Account> findAccountByRolesId() {
+        return null;
     }
 
 

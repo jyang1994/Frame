@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyuyang.tms.mapper.StoreSticketMapper">
+  <resultMap id="BaseResultMap" type="cn.jyuyang.tms.entity.StoreSticket">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="manager_name" jdbcType="VARCHAR" property="managerName" />
+    <result column="manager_mobile" jdbcType="VARCHAR" property="managerMobile" />
+    <result column="store_name" jdbcType="VARCHAR" property="storeName" />
+    <result column="ticket_store_address" jdbcType="VARCHAR" property="ticketStoreAddress" />
+    <result column="business_license_photo" jdbcType="VARCHAR" property="businessLicensePhoto" />
+    <result column="manager_card" jdbcType="VARCHAR" property="managerCard" />
+    <result column="manager_card_before" jdbcType="VARCHAR" property="managerCardBefore" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="store_longitude" jdbcType="VARCHAR" property="storeLongitude" />
+    <result column="store_latitude" jdbcType="VARCHAR" property="storeLatitude" />
+    <result column="manager_card_after" jdbcType="VARCHAR" property="managerCardAfter" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, manager_name, manager_mobile, store_name, ticket_store_address, business_license_photo, 
+    manager_card, manager_card_before, create_time, update_time, account_id, store_longitude, 
+    store_latitude, manager_card_after, state
+  </sql>
+  <select id="selectByExample" parameterType="cn.jyuyang.tms.entity.StoreSticketExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from store_sticket
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from store_sticket
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from store_sticket
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.jyuyang.tms.entity.StoreSticketExample">
+    delete from store_sticket
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.jyuyang.tms.entity.StoreSticket">
+    insert into store_sticket (id, manager_name, manager_mobile, 
+      store_name, ticket_store_address, business_license_photo, 
+      manager_card, manager_card_before, create_time, 
+      update_time, account_id, store_longitude, 
+      store_latitude, manager_card_after, state
+      )
+    values (#{id,jdbcType=INTEGER}, #{managerName,jdbcType=VARCHAR}, #{managerMobile,jdbcType=VARCHAR}, 
+      #{storeName,jdbcType=VARCHAR}, #{ticketStoreAddress,jdbcType=VARCHAR}, #{businessLicensePhoto,jdbcType=VARCHAR}, 
+      #{managerCard,jdbcType=VARCHAR}, #{managerCardBefore,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{accountId,jdbcType=INTEGER}, #{storeLongitude,jdbcType=VARCHAR}, 
+      #{storeLatitude,jdbcType=VARCHAR}, #{managerCardAfter,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyuyang.tms.entity.StoreSticket">
+    insert into store_sticket
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="managerName != null">
+        manager_name,
+      </if>
+      <if test="managerMobile != null">
+        manager_mobile,
+      </if>
+      <if test="storeName != null">
+        store_name,
+      </if>
+      <if test="ticketStoreAddress != null">
+        ticket_store_address,
+      </if>
+      <if test="businessLicensePhoto != null">
+        business_license_photo,
+      </if>
+      <if test="managerCard != null">
+        manager_card,
+      </if>
+      <if test="managerCardBefore != null">
+        manager_card_before,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="storeLongitude != null">
+        store_longitude,
+      </if>
+      <if test="storeLatitude != null">
+        store_latitude,
+      </if>
+      <if test="managerCardAfter != null">
+        manager_card_after,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="managerName != null">
+        #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerMobile != null">
+        #{managerMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null">
+        #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketStoreAddress != null">
+        #{ticketStoreAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicensePhoto != null">
+        #{businessLicensePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="managerCard != null">
+        #{managerCard,jdbcType=VARCHAR},
+      </if>
+      <if test="managerCardBefore != null">
+        #{managerCardBefore,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="storeLongitude != null">
+        #{storeLongitude,jdbcType=VARCHAR},
+      </if>
+      <if test="storeLatitude != null">
+        #{storeLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="managerCardAfter != null">
+        #{managerCardAfter,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.jyuyang.tms.entity.StoreSticketExample" resultType="java.lang.Long">
+    select count(*) from store_sticket
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update store_sticket
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.managerName != null">
+        manager_name = #{record.managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerMobile != null">
+        manager_mobile = #{record.managerMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeName != null">
+        store_name = #{record.storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ticketStoreAddress != null">
+        ticket_store_address = #{record.ticketStoreAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessLicensePhoto != null">
+        business_license_photo = #{record.businessLicensePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerCard != null">
+        manager_card = #{record.managerCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerCardBefore != null">
+        manager_card_before = #{record.managerCardBefore,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.accountId != null">
+        account_id = #{record.accountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.storeLongitude != null">
+        store_longitude = #{record.storeLongitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storeLatitude != null">
+        store_latitude = #{record.storeLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerCardAfter != null">
+        manager_card_after = #{record.managerCardAfter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update store_sticket
+    set id = #{record.id,jdbcType=INTEGER},
+      manager_name = #{record.managerName,jdbcType=VARCHAR},
+      manager_mobile = #{record.managerMobile,jdbcType=VARCHAR},
+      store_name = #{record.storeName,jdbcType=VARCHAR},
+      ticket_store_address = #{record.ticketStoreAddress,jdbcType=VARCHAR},
+      business_license_photo = #{record.businessLicensePhoto,jdbcType=VARCHAR},
+      manager_card = #{record.managerCard,jdbcType=VARCHAR},
+      manager_card_before = #{record.managerCardBefore,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      account_id = #{record.accountId,jdbcType=INTEGER},
+      store_longitude = #{record.storeLongitude,jdbcType=VARCHAR},
+      store_latitude = #{record.storeLatitude,jdbcType=VARCHAR},
+      manager_card_after = #{record.managerCardAfter,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyuyang.tms.entity.StoreSticket">
+    update store_sticket
+    <set>
+      <if test="managerName != null">
+        manager_name = #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerMobile != null">
+        manager_mobile = #{managerMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="storeName != null">
+        store_name = #{storeName,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketStoreAddress != null">
+        ticket_store_address = #{ticketStoreAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicensePhoto != null">
+        business_license_photo = #{businessLicensePhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="managerCard != null">
+        manager_card = #{managerCard,jdbcType=VARCHAR},
+      </if>
+      <if test="managerCardBefore != null">
+        manager_card_before = #{managerCardBefore,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="storeLongitude != null">
+        store_longitude = #{storeLongitude,jdbcType=VARCHAR},
+      </if>
+      <if test="storeLatitude != null">
+        store_latitude = #{storeLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="managerCardAfter != null">
+        manager_card_after = #{managerCardAfter,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyuyang.tms.entity.StoreSticket">
+    update store_sticket
+    set manager_name = #{managerName,jdbcType=VARCHAR},
+      manager_mobile = #{managerMobile,jdbcType=VARCHAR},
+      store_name = #{storeName,jdbcType=VARCHAR},
+      ticket_store_address = #{ticketStoreAddress,jdbcType=VARCHAR},
+      business_license_photo = #{businessLicensePhoto,jdbcType=VARCHAR},
+      manager_card = #{managerCard,jdbcType=VARCHAR},
+      manager_card_before = #{managerCardBefore,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      account_id = #{accountId,jdbcType=INTEGER},
+      store_longitude = #{storeLongitude,jdbcType=VARCHAR},
+      store_latitude = #{storeLatitude,jdbcType=VARCHAR},
+      manager_card_after = #{managerCardAfter,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

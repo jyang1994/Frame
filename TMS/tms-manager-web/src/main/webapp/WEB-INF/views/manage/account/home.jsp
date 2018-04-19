@@ -34,6 +34,22 @@
 
         <!-- Main content -->
         <section class="content">
+
+            <div class="box no-border">
+                <div class="box-body">
+                    <form class="form-inline">
+                        <input type="text" name="username" placeholder="账号" class="form-control" value="${param.username}">
+                        <select name="rolesId" class="form-control">
+                            <option value="">所有账号</option>
+                            <c:forEach items="${rolesList}" var="roles">
+                                <option value="${roles.id}" ${param.rolesId == roles.id ? 'selected' : ''}>${roles.roleName}</option>
+                            </c:forEach>
+                        </select>
+                        <button class="btn btn-default">搜索</button>
+                    </form>
+                </div>
+            </div>
+
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">帐号列表</h3>
@@ -51,7 +67,6 @@
                             <th>锁定状态</th>
                             <th>禁用状态</th>
                             <th>角色类型</th>
-
                             <th>操作#</th>
                         </tr>
                         </thead>

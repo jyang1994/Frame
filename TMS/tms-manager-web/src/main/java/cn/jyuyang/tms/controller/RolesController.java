@@ -101,6 +101,7 @@ public class RolesController {
     }
     @PostMapping("/new")
     public String newRoles(Roles roles, Integer[] permissionId){
+        System.out.println(roles.getRoleName()+"---------------------------");
         rolesPermissionService.saveRolesAndRolesPermissionKey(roles,permissionId);
         return "redirect:/manage/roles/home";
     }

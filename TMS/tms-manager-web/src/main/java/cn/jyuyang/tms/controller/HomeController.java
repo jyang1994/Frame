@@ -4,7 +4,6 @@ import cn.jyuyang.tms.service.AccountService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
@@ -91,6 +90,8 @@ public class HomeController {
     public String home(){
         return "home";
     }
+
+
     /**
      * 401没有权限
      */

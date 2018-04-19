@@ -6,6 +6,7 @@ import cn.jyuyang.tms.entity.Roles;
 import cn.jyuyang.tms.exception.ServiceException;
 import cn.jyuyang.tms.service.AccountService;
 import cn.jyuyang.tms.service.RolesPermissionService;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/manage/account")
@@ -60,10 +62,18 @@ public class AccountController {
     }
 
     @GetMapping("/home")
-    public String home(Model model){
-        model.addAttribute("accountList",accountService.findAccountAndRoles());
+    public String home(Model model,
+                       @RequestParam(required = false) String username,
+                       @RequestParam(required = false) Integer rolesId){
+        Map<String,Object> requestParam = Maps.newHashMap();
+        requestParam.put("username",username);
+        requestParam.put("rolesId",rolesId);
+
+        model.addAttribute("rolesList",rolesPermissionService.findAllRoles());
+        model.addAttribute("accountList",accountService.findAccountAndRoles(requestParam));
         return "manage/account/home";
     }
+
     @GetMapping("/new")
     public String newAccount(Model model){
         List<Roles> rolesList = rolesPermissionService.findRolesByPermission();

@@ -5,6 +5,7 @@ import cn.jyuyang.tms.entity.AccountLoginLog;
 import cn.jyuyang.tms.entity.Roles;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AccountService {
     /**
@@ -27,7 +28,7 @@ public interface AccountService {
     /**
      * @return 帐号集合包括对应的角色
      */
-    List<Account> findAccountAndRoles();
+    List<Account> findAccountAndRoles(Map<String, Object> requestParam);
 
     /**
      * 根据ID查到对应的account对象
@@ -67,4 +68,10 @@ public interface AccountService {
      * @return
      */
     List<Roles> findRolesByAccountId(Integer id);
+
+    /**
+     * 根据username和对应的角色查找搜索帐号
+     * @return
+     */
+    List<Account> findAccountByRolesId();
 }
