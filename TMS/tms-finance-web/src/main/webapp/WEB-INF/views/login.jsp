@@ -8,7 +8,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>TMS-综合管理系统</title>
+    <title>TMS-财务清算系统</title>
     <%@include file="include/css.jsp"%>
     <link rel="stylesheet" href="/static/plugins/iCheck/all.css">
     <link href="/static/dist/js/login.css" rel="stylesheet" type="text/css" />
@@ -19,7 +19,7 @@
     <div class="login_l_img"><img src="/static/dist/img/login-img.png" /></div>
     <div class="login">
         <div class="login_logo"><a href="#"><img src="/static/dist/img/login_logo.png" /></a></div>
-            <h3 class="login_name">TMS综合管理系统</h3>
+            <h3 class="login_name">TMS财务清算系统</h3>
             <c:if test="${not empty message}">
                 <p class="login-box-msg text-danger">${message}</p>
             </c:if>

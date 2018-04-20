@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>TMS - 系统管理 - 帐号管理</title>
     <%@include file="../include/css.jsp"%>
-    <link rel="stylesheet" href="/static/plugins/treegrid/css/jquery.treegrid.css">
+
 </head>
 <body class="hold-transition skin-purple sidebar-mini">
 <!-- Site wrapper -->
@@ -34,7 +34,17 @@
 
         <!-- Main content -->
         <section class="content">
-
+            <div class="box">
+                <div class="box-body">
+                    <form method="get" class="form-inline">
+                        <input type="text" name="name" class="form-control" placeholder="联系人姓名" value="${param.storeManager}">
+                        <input type="text" name="mobile" class="form-control" placeholder="联系电话" value="${param.storeTel}">
+                        <input type="text" name="storename" class="form-control" placeholder="售票点名称" value="${param.storeName}">
+                        <input type="text" name="address" class="form-control" placeholder="售票点地址" value="${param.storeName}">
+                        <button class="btn btn-default">搜索</button>
+                    </form>
+                </div>
+            </div>
 
             <div class="box">
                 <div class="box-header">
@@ -57,7 +67,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${storeSticketList}" var="storeSticket">
+                        <c:forEach items="${sticketPageInfo.list}" var="storeSticket">
                             <tr >
 
                                 <td>${storeSticket.managerName}</td>
@@ -75,10 +85,15 @@
                             </tr>
 
                         </c:forEach>
+
                         </tbody>
+
                     </table>
+                    <ul id="pagination" class="pagination pull-right"></ul>
                 </div>
+
             </div>
+
         </section>
         <!-- /.content -->
     </div>
@@ -87,20 +102,30 @@
 <!-- ./wrapper -->
 
 <%@include file="../include/js.jsp"%>
-<script src="/static/plugins/treegrid/js/jquery.treegrid.min.js"></script>
-<script src="/static/plugins/treegrid/js/jquery.treegrid.bootstrap3.js"></script>
+
+
 <script src="/static/plugins/layer/layer.js"></script>
 <script>
-    $(".delLink").click(function () {
-        var id = $(this).attr("rel");
-        var loginId ="<shiro:principal property='id'/>";
-        if(id == loginId){
-            layer.msg("不能删除当前登陆账号！");
-        }else{
-            layer.confirm("确定要删除吗？",function (index) {
-                layer.close(index);
-                $.get("/manage/account/" + id + "/del").done(function (result) {
+    $(function(){
 
+        $("#pagination").twbsPagination({
+            totalPages: ${sticketPageInfo.pages},
+            visiblePages: 5,
+            first:"首页",
+            last:"末页",
+            prev:"上一页",
+            next:"下一页",
+            href:"?p={{number}}"
+        });
+
+        $(".delLink").click(function () {
+
+            var id = $(this).attr("rel");
+
+            layer.confirm("确定要删除吗？", function (index) {
+                layer.close(index);
+                $.get("/store/" + id + "/del").done(function (result) {
+                    console.log(result.status);
                     if (result.status == "success") {
                         layer.msg("删除成功")
                         history.go(0);
@@ -112,8 +137,11 @@
                 })
 
             })
-        }
+        })
     })
+
+
+
 </script>
 </body>
 </html>

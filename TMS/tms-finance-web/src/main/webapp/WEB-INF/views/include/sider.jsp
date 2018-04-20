@@ -9,18 +9,18 @@
         <!-- 菜单 -->
         <ul class="sidebar-menu">
             <li class="${param.menu == 'home' ? 'active' : ''}"><a href="/home"><i class="fa fa-home"></i> <span>首页</span></a></li>
-            <li class="header">系统管理</li>
-            <shiro:hasPermission name="account:query">
-                 <li class="${param.menu == 'account_roles' ? 'active' : ''}"><a href="/manage/account/home"><i class="fa fa-circle-o"></i> <span>账号管理</span></a></li>
-            </shiro:hasPermission>
+            <li class="header">财务管理</li>
 
-            <shiro:hasPermission name="roles:query">
+                 <li class="${param.menu == 'ticket_in' ? 'active' : ''}"><a href="/finance/ticket/in/home"><i class="fa fa-circle-o"></i> <span>入票管理</span></a></li>
 
-                <li class="${param.menu == 'roles_permission' ? 'active' : ''}"><a href="/manage/roles/home"><i class="fa fa-circle-o"></i> <span>角色管理</span></a></li>
-            </shiro:hasPermission>
-            <shiro:hasPermission name="permission:query">
-                <li class="${param.menu == 'manage_permission' ? 'active' : ''}"><a href="/manage/permission/home"><i class="fa fa-circle-o"></i> <span>权限管理</span></a></li>
-            </shiro:hasPermission>
+
+
+
+                <li class="${param.menu == 'roles_permission' ? 'active' : ''}"><a href="/manage/roles/home"><i class="fa fa-circle-o"></i> <span>下发管理</span></a></li>
+
+
+                <li class="${param.menu == 'manage_permission' ? 'active' : ''}"><a href="/manage/permission/home"><i class="fa fa-circle-o"></i> <span>结算管理</span></a></li>
+
 
             <li cl
 

@@ -43,9 +43,6 @@ public class ShiroRealm extends AuthorizingRealm {
             List<Permission> tempList =rolesPermissionService.findPermissionByRolesId(roles.getId());
             permissionList.addAll(tempList);
         }
-        for(Permission permission : permissionList) {
-            System.out.println(permission.getPermissionCode()+"----------------------------------------");
-        }
 
         Set<String> rolesCodeSet= new HashSet<>();
         for(Roles roles : rolesList) {

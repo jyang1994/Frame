@@ -117,17 +117,16 @@
             auto: true,
             swf: '/static/plugins/uploader/Uploader.swf',
             //tms-1252494188.cos.ap-beijing.myqcloud.com腾讯云
-            server: 'http://upload-z1.qiniup.com',
+            server: 'http://upload-z2.qiniup.com',
             fileVal: 'file',
-            formData: {
-                "token":${untoken}
-            },
             pick: '#picker',
-            //只允许图片
-            accept: {
+            formData:{
+                "token":"${upToken}"
+            },
+             accept: {
                 title: 'Images',
                 extensions: 'gif,jpg,jpeg,bmp,png',
-                mimeTypes: 'image/*'
+                mimeTypes: 'image/!*'
             }
         });
         var index = -1;
@@ -150,6 +149,42 @@
             layer.close(index);
         });
 
+
+        var uploader2 = WebUploader.create({
+            auto: true,
+            swf: '/static/plugins/uploader/Uploader.swf',
+            //tms-1252494188.cos.ap-beijing.myqcloud.com腾讯云
+            server: 'http://upload-z2.qiniup.com',
+            fileVal: 'file',
+            pick: '#picker2',
+            formData:{
+                "token":"${upToken}"
+            },
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/!*'
+            }
+        });
+        var index = -1;
+        uploader2.on('uploadStart', function (file) {
+            index = layer.load(1);
+        });
+        uploader2.on('uploadSuccess', function (file, response) {
+            $("#userPhoto").html("");
+            var fileName = response.key;
+            var $img = $("<img>").attr("src", "http://p7hlny1f4.bkt.clouddn.com/" + fileName + "-jyang");
+            $img.appendTo($("#userPhoto"));
+            //将key存放到隐藏域中
+            $("#storeManagerAttachment").val(fileName);
+            layer.msg("上传成功");
+        });
+        uploader2.on('uploadError', function (file) {
+            layer.msg("服务器异常");
+        });
+        uploader2.on('uploadComplete', function (file) {
+            layer.close(index);
+        });
 
     })
 </script>

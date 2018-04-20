@@ -1,8 +1,10 @@
 package cn.jyuyang.tms.service;
 
 import cn.jyuyang.tms.entity.StoreSticket;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface StoreService {
     /**
@@ -29,4 +31,17 @@ public interface StoreService {
      * @param storeSticket
      */
     void updateStoreSticket(Integer id,StoreSticket storeSticket);
+
+    /**
+     * 根据搜索条件查询满足条件的售票点，并以分页返回
+     * @param queryParam
+     * @return
+     */
+    PageInfo<StoreSticket> selectByPageInfo(Integer pageNo,  Map<String,Object> queryParam);
+
+    /**
+     * 根据ID删除对应的售票点和对应账号
+     * @param id
+     */
+    void delStoreSticketById(Integer id);
 }
