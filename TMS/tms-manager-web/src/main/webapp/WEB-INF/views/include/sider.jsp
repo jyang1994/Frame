@@ -23,7 +23,7 @@
             </shiro:hasPermission>
 
             <li class="header">售票管理</li>
-                <li class="${param.menu == 'manage_store' ? 'active' : ''}"><a href="/manage/store/new"><i class="fa fa-circle-o"></i> <span>售票点管理</span></a></li>
+                <li class="${param.menu == 'manage_store' ? 'active' : ''}"><a href="/store/home"><i class="fa fa-circle-o"></i> <span>售票点管理</span></a></li>
 
 
             <li cl

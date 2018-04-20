@@ -18,6 +18,27 @@
     <result column="manager_card_after" jdbcType="VARCHAR" property="managerCardAfter" />
     <result column="state" jdbcType="VARCHAR" property="state" />
   </resultMap>
+
+  <resultMap id="storeSticketWithStoreAccount" type="cn.jyuyang.tms.entity.StoreSticket" extends="BaseResultMap">
+    <collection property="storeAccount" ofType="cn.jyuyang.tms.entity.StoreAccount">
+      <id property="id" column="account_id"/>
+      <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="password" jdbcType="VARCHAR" property="password" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="update" jdbcType="TIMESTAMP" property="update" />
+      <result column="store_sticket_id" jdbcType="INTEGER" property="storeSticketId" />
+    </collection>
+  </resultMap>
+  <select id="selectStoreStricketWithAccount"  resultMap="storeSticketWithStoreAccount">
+    SELECT store_sticket.*,store_account.* from store_sticket
+      LEFT JOIN
+    store_account
+      on
+    store_account.id = store_sticket.account_id;
+  </select>
+
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

@@ -6,6 +6,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface StoreSticketMapper {
+
+    List<StoreSticket> selectStoreStricketWithAccount();
+
     long countByExample(StoreSticketExample example);
 
     int deleteByExample(StoreSticketExample example);

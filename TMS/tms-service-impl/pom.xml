@@ -91,6 +91,12 @@
         <artifactId>slf4j-log4j12</artifactId>
         <version>1.7.25</version>
     </dependency>
+        <!--七牛-->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>7.2.8</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

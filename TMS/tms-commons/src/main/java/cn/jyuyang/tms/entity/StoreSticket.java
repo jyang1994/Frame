@@ -58,6 +58,8 @@ public class StoreSticket implements Serializable {
      */
     private String storeLatitude;
 
+    private StoreAccount storeAccount;
+
     /**
      * 法人身份反面照片
      */

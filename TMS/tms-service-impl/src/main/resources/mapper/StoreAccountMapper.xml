@@ -3,12 +3,13 @@
 <mapper namespace="cn.jyuyang.tms.mapper.StoreAccountMapper">
   <resultMap id="BaseResultMap" type="cn.jyuyang.tms.entity.StoreAccount">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="manager_name" jdbcType="VARCHAR" property="managerName" />
+    <result column="manager_mobile" jdbcType="VARCHAR" property="managerMobile" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update" jdbcType="TIMESTAMP" property="update" />
-    <result column="store_sticket_id" jdbcType="INTEGER" property="storeSticketId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="store_sciket_id" jdbcType="INTEGER" property="storeSciketId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, mobile, name, password, create_time, update, store_sticket_id
+    id, manager_name, manager_mobile, password, create_time, update_time, store_sciket_id, 
+    state
   </sql>
   <select id="selectByExample" parameterType="cn.jyuyang.tms.entity.StoreAccountExample" resultMap="BaseResultMap">
     select
@@ -110,24 +112,24 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.jyuyang.tms.entity.StoreAccount">
-    insert into store_account (id, mobile, name, 
-      password, create_time, update, 
-      store_sticket_id)
-    values (#{id,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{update,jdbcType=TIMESTAMP}, 
-      #{storeSticketId,jdbcType=INTEGER})
+    insert into store_account (id, manager_name, manager_mobile, 
+      password, create_time, update_time, 
+      store_sciket_id, state)
+    values (#{id,jdbcType=INTEGER}, #{managerName,jdbcType=VARCHAR}, #{managerMobile,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{storeSciketId,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.jyuyang.tms.entity.StoreAccount" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="cn.jyuyang.tms.entity.StoreAccount">
     insert into store_account
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="mobile != null">
-        mobile,
+      <if test="managerName != null">
+        manager_name,
       </if>
-      <if test="name != null">
-        name,
+      <if test="managerMobile != null">
+        manager_mobile,
       </if>
       <if test="password != null">
         password,
@@ -135,22 +137,25 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="update != null">
-        update,
+      <if test="updateTime != null">
+        update_time,
       </if>
-      <if test="storeSticketId != null">
-        store_sticket_id,
+      <if test="storeSciketId != null">
+        store_sciket_id,
+      </if>
+      <if test="state != null">
+        state,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="mobile != null">
-        #{mobile,jdbcType=VARCHAR},
+      <if test="managerName != null">
+        #{managerName,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="managerMobile != null">
+        #{managerMobile,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
@@ -158,11 +163,14 @@
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="update != null">
-        #{update,jdbcType=TIMESTAMP},
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="storeSticketId != null">
-        #{storeSticketId,jdbcType=INTEGER},
+      <if test="storeSciketId != null">
+        #{storeSciketId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -178,11 +186,11 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.mobile != null">
-        mobile = #{record.mobile,jdbcType=VARCHAR},
+      <if test="record.managerName != null">
+        manager_name = #{record.managerName,jdbcType=VARCHAR},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.managerMobile != null">
+        manager_mobile = #{record.managerMobile,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
@@ -190,11 +198,14 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.update != null">
-        update = #{record.update,jdbcType=TIMESTAMP},
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.storeSticketId != null">
-        store_sticket_id = #{record.storeSticketId,jdbcType=INTEGER},
+      <if test="record.storeSciketId != null">
+        store_sciket_id = #{record.storeSciketId,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -204,12 +215,13 @@
   <update id="updateByExample" parameterType="map">
     update store_account
     set id = #{record.id,jdbcType=INTEGER},
-      mobile = #{record.mobile,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
+      manager_name = #{record.managerName,jdbcType=VARCHAR},
+      manager_mobile = #{record.managerMobile,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update = #{record.update,jdbcType=TIMESTAMP},
-      store_sticket_id = #{record.storeSticketId,jdbcType=INTEGER}
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      store_sciket_id = #{record.storeSciketId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -217,11 +229,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.jyuyang.tms.entity.StoreAccount">
     update store_account
     <set>
-      <if test="mobile != null">
-        mobile = #{mobile,jdbcType=VARCHAR},
+      <if test="managerName != null">
+        manager_name = #{managerName,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="managerMobile != null">
+        manager_mobile = #{managerMobile,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
@@ -229,23 +241,27 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="update != null">
-        update = #{update,jdbcType=TIMESTAMP},
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="storeSticketId != null">
-        store_sticket_id = #{storeSticketId,jdbcType=INTEGER},
+      <if test="storeSciketId != null">
+        store_sciket_id = #{storeSciketId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.jyuyang.tms.entity.StoreAccount">
     update store_account
-    set mobile = #{mobile,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
+    set manager_name = #{managerName,jdbcType=VARCHAR},
+      manager_mobile = #{managerMobile,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update = #{update,jdbcType=TIMESTAMP},
-      store_sticket_id = #{storeSticketId,jdbcType=INTEGER}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      store_sciket_id = #{storeSciketId,jdbcType=INTEGER},
+      state = #{state,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
