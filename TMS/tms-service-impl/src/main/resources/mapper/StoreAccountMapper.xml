@@ -119,7 +119,7 @@
       #{password,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{storeSciketId,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.jyuyang.tms.entity.StoreAccount">
+  <insert id="insertSelective" parameterType="cn.jyuyang.tms.entity.StoreAccount" useGeneratedKeys="true" keyProperty="id">
     insert into store_account
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

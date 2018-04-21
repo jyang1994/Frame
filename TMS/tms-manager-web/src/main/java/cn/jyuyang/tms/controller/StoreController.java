@@ -38,28 +38,9 @@ public class StoreController {
 
 
     @PostMapping("/new")
-    public String newStore(StoreSticket storeSticket,
-                           MultipartFile businessPhoto,
-                           MultipartFile cardBefore,
-                           MultipartFile cardAfter,
-                           RedirectAttributes redirectAttributes){
-
-        storeSticket.setBusinessLicensePhoto(businessPhoto.getOriginalFilename());
-        storeSticket.setManagerCardAfter(cardAfter.getOriginalFilename());
-        storeSticket.setManagerCardBefore(cardBefore.getOriginalFilename());
-
-        try {
-
-            businessPhoto.transferTo(new File("d:/temp/photo/"+businessPhoto.getOriginalFilename()));
-            cardBefore.transferTo(new File("d:/temp/photo/"+cardBefore.getOriginalFilename()));
-            cardAfter.transferTo(new File("d:/temp/photo/"+cardAfter.getOriginalFilename()));
-
-            storeService.saveStoreSticket(storeSticket);
-
-        } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("message","请选择文件");
-        }
-
+    public String newStore(StoreSticket storeSticket){
+        System.out.println(storeSticket+"----------------------------------------s");
+        storeService.saveStoreSticket(storeSticket);
         return "redirect:/store/home";
     }
 

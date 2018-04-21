@@ -154,7 +154,7 @@
       #{storeLatitude,jdbcType=VARCHAR}, #{managerCardAfter,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.jyuyang.tms.entity.StoreSticket">
+  <insert id="insertSelective" parameterType="cn.jyuyang.tms.entity.StoreSticket" useGeneratedKeys="true" keyProperty="id">
     insert into store_sticket
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

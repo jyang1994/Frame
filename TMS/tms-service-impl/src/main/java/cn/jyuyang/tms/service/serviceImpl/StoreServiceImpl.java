@@ -37,18 +37,19 @@ public class StoreServiceImpl implements StoreService {
     @Transactional(rollbackFor = RuntimeException.class)
     @Override
     public void saveStoreSticket(StoreSticket storeSticket) {
+
         storeSticket.setState(StoreSticket.STORE_STATE_NORMAl);
         storeSticket.setCreateTime(new Date());
         storeSticketMapper.insertSelective(storeSticket);
 
-
         StoreAccount storeAccount = new StoreAccount();
+
         storeAccount.setStoreSciketId(storeSticket.getId());
         storeAccount.setManagerMobile(storeSticket.getManagerMobile());
         storeAccount.setCreateTime(new Date());
         storeAccount.setManagerName(storeSticket.getManagerName());
         storeAccount.setPassword(DigestUtils.md5Hex(storeSticket.getManagerMobile().substring(7, 11)));
-        storeAccount.setUpdateTime(new Date());
+
         storeAccountMapper.insertSelective(storeAccount);
 
         storeSticket.setAccountId(storeAccount.getId());

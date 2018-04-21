@@ -78,6 +78,9 @@
                             <input type="text" name="managerCard" class="form-control">
                         </div>
                         <div class="row">
+                            <input type="hidden" name="managerCardBefore" id="managerCardBefore">
+                            <input type="hidden" name="businessLicensePhoto" id="businessLicensePhoto">
+
                             <div class="col-md-6">
                                 <div id="picker">添加负责人身份证照片</div>
                                 <div class="photo" id="userPhoto"></div>
@@ -117,12 +120,12 @@
             auto: true,
             swf: '/static/plugins/uploader/Uploader.swf',
             //tms-1252494188.cos.ap-beijing.myqcloud.com腾讯云
-            server: 'http://upload-z2.qiniup.com',
+            server: 'http://upload-z1.qiniup.com',
             fileVal: 'file',
-            pick: '#picker',
             formData:{
                 "token":"${upToken}"
             },
+            pick: '#picker',
              accept: {
                 title: 'Images',
                 extensions: 'gif,jpg,jpeg,bmp,png',
@@ -136,10 +139,11 @@
         uploader.on('uploadSuccess', function (file, response) {
             $("#userPhoto").html("");
             var fileName = response.key;
-            var $img = $("<img>").attr("src", "http://p7f6tjc1h.bkt.clouddn.com/" + fileName + "-preview");
+            var $img = $("<img>").attr("src", "http://p7hlny1f4.bkt.clouddn.com/" + fileName + "-jyang");
             $img.appendTo($("#userPhoto"));
             //将key存放到隐藏域中
-            $("#storeManagerAttachment").val(fileName);
+            $("#businessLicensePhoto").val(fileName);
+            console.log( $("#businessLicensePhoto").val())
             layer.msg("上传成功");
         });
         uploader.on('uploadError', function (file) {
@@ -150,16 +154,17 @@
         });
 
 
+        //初始化webuploader
         var uploader2 = WebUploader.create({
             auto: true,
             swf: '/static/plugins/uploader/Uploader.swf',
             //tms-1252494188.cos.ap-beijing.myqcloud.com腾讯云
-            server: 'http://upload-z2.qiniup.com',
+            server: 'http://upload-z1.qiniup.com',
             fileVal: 'file',
-            pick: '#picker2',
             formData:{
                 "token":"${upToken}"
             },
+            pick: '#picker2',
             accept: {
                 title: 'Images',
                 extensions: 'gif,jpg,jpeg,bmp,png',
@@ -171,12 +176,13 @@
             index = layer.load(1);
         });
         uploader2.on('uploadSuccess', function (file, response) {
-            $("#userPhoto").html("");
+            $("#storePhoto").html("");
             var fileName = response.key;
+            console.log(fileName);
             var $img = $("<img>").attr("src", "http://p7hlny1f4.bkt.clouddn.com/" + fileName + "-jyang");
-            $img.appendTo($("#userPhoto"));
+            $img.appendTo($("#storePhoto"));
             //将key存放到隐藏域中
-            $("#storeManagerAttachment").val(fileName);
+            $("#managerCardBefore").val(fileName);
             layer.msg("上传成功");
         });
         uploader2.on('uploadError', function (file) {
