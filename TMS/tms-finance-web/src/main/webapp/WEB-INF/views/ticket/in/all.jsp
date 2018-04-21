@@ -26,23 +26,21 @@
     <!-- 右侧内容部分 -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <section class="content-header">
+      <%--  <section class="content-header">
             <h1>
                 入票管理
             </h1>
-        </section>
+        </section>--%>
 
         <!-- Main content -->
         <section class="content">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">入票记录列表</h3>
+                    <h3 class="box-title">年票列表</h3>
 
                     <div class="box-tools">
-                        <shiro:hasPermission name="ticket:add">
-                            <a href="/finance/ticket/in/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增入票</a>
-                        </shiro:hasPermission>
-                        <a href="/finance/ticket/all" class="btn btn-warning btn-sm"><i class="fa fa-eye"></i> 所有年票</a>
+
+                        <a href="/finance/ticket/in/home" class="btn btn-success btn-sm"><i class="fa fa-eye"></i> 返回</a>
 
                     </div>
 
@@ -53,41 +51,41 @@
                     <table class="table tree">
                         <thead>
                         <tr>
-                            <th>入票时间</th>
-                            <th>起始票号</th>
-                            <th>结束票号</th>
-                            <th>年票数量</th>
-                            <th>入库负责人</th>
-                            <th>#操作</th>
+                            <th>票号</th>
+                            <th>入库时间</th>
+                            <th>出库时间</th>
+                            <th>购买人</th>
+                            <th>售票点</th>
+                            <th>状态</th>
+                            <td>#操作</td>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${ticketInLogs}" var="ticketInlog">
+                        <c:forEach items="${ticketPageInfo.list}" var="ticket">
                             <tr>
+                                <td>${ticket.ticketNum}</td>
+                                <td><fmt:formatDate value="${ticket.ticketInTime}"></fmt:formatDate></td>
+                                <td><fmt:formatDate value="${ticket.ticketOutTime}"></fmt:formatDate></td>
+                                <td>${ticket.customerId}</td>
+                                <td>${ticket.storeSticket.storeName}</td>
+                                <td>${ticket.ticketState}</td>
 
-                                <td><fmt:formatDate value="${ticketInlog.createTime}"></fmt:formatDate></td>
-                                <td>${ticketInlog.startNum}</td>
-                                <td>${ticketInlog.endNum}</td>
-                                <td>${ticketInlog.totalNum}</td>
-                                    <%--修改功能，查看负责人信息--%>
+
                                 <td>
-                                    <a href="/finance/${ticketInlog.accountName}/account/">${ticketInlog.accountName}</a>
-                                </td>
-                                <td>
-                                    <shiro:hasPermission name="ticket:edit">
+
                                         <a class="btn btn-primary btn-xs" href="/finance/ticket/${ticketInlog.id}/edit"
                                            title="修改"><i class="fa fa-pencil"></i></a>
-                                    </shiro:hasPermission>
-                                    <shiro:hasPermission name="ticket:del">
+
+
                                         <a class="btn btn-danger btn-xs delLink" rel="${ticketInlog.id}"
                                            href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>
-                                    </shiro:hasPermission>
                                 </td>
                             </tr>
 
                         </c:forEach>
                         </tbody>
                     </table>
+                    <ul id="pagination" class="pagination pull-right"></ul>
 
                 </div>
             </div>
@@ -101,6 +99,15 @@
 <%@include file="../../include/js.jsp" %>
 <script>
     $(function () {
+        $("#pagination").twbsPagination({
+            totalPages: ${ticketPageInfo.pages},
+            visiblePages: 5,
+            first:"首页",
+            last:"末页",
+            prev:"上一页",
+            next:"下一页",
+            href:"?p={{number}}"
+        });
         $('.tree').treegrid();
         $(".delLink").click(function () {
             var id = $(this).attr("rel");

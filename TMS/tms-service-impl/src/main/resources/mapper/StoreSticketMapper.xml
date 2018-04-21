@@ -22,12 +22,13 @@
   <resultMap id="storeSticketWithStoreAccount" type="cn.jyuyang.tms.entity.StoreSticket" extends="BaseResultMap">
     <collection property="storeAccount" ofType="cn.jyuyang.tms.entity.StoreAccount">
       <id property="id" column="account_id"/>
-      <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-      <result column="name" jdbcType="VARCHAR" property="name" />
+      <result column="manager_name" jdbcType="VARCHAR" property="managerName" />
+      <result column="manager_mobile" jdbcType="VARCHAR" property="managerMobile" />
       <result column="password" jdbcType="VARCHAR" property="password" />
       <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-      <result column="update" jdbcType="TIMESTAMP" property="update" />
-      <result column="store_sticket_id" jdbcType="INTEGER" property="storeSticketId" />
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="store_sciket_id" jdbcType="INTEGER" property="storeSciketId" />
+      <result column="state" jdbcType="VARCHAR" property="state" />
     </collection>
   </resultMap>
   <select id="selectStoreStricketWithAccount"  resultMap="storeSticketWithStoreAccount">

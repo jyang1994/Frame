@@ -29,4 +29,10 @@ public interface TicketMapper {
     int updateByPrimaryKey(Ticket record);
 
     void insertTicketList(@Param("ticketList") List<Ticket> ticketList);
+
+    /**
+     * 查找年票以及下发到哪个售票点
+     * @return
+     */
+    List<Ticket> selectTicketAndStore();
 }

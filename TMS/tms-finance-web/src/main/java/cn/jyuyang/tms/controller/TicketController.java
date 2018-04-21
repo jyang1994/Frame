@@ -5,6 +5,9 @@ import cn.jyuyang.tms.entity.Ticket;
 import cn.jyuyang.tms.entity.TicketInLog;
 import cn.jyuyang.tms.exception.ServiceException;
 import cn.jyuyang.tms.service.TicketInLogService;
+import cn.jyuyang.tms.service.TicketService;
+import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 @Controller
@@ -20,6 +22,8 @@ import java.util.List;
 public class TicketController {
     @Autowired
     private TicketInLogService ticketInLogService;
+    @Autowired
+    private TicketService ticketService;
 
     @GetMapping("/in/home")
     public String ticketInHome(Model model) {
@@ -80,5 +84,12 @@ public class TicketController {
         }catch (ServiceException ex) {
             return ResponseBean.error(ex.getMessage());
         }
+    }
+
+    @GetMapping("/all")
+    public String allTicket(@RequestParam(defaultValue = "1",name = "p",required = false) Integer pageNo, Model model){
+        PageInfo<Ticket> ticketPageInfo = ticketService.findTicketByPage(pageNo);
+        model.addAttribute("ticketPageInfo",ticketPageInfo);
+        return "ticket/in/all";
     }
 }

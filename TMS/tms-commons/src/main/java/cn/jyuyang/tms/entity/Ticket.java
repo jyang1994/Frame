@@ -11,6 +11,16 @@ public class Ticket implements Serializable {
     public static final String TICKET_STATE_NORMAL = "正常";
     public static final String TICKET_STATE_DISABLE = "作废";
 
+    public StoreSticket getStoreSticket() {
+        return storeSticket;
+    }
+
+    public void setStoreSticket(StoreSticket storeSticket) {
+        this.storeSticket = storeSticket;
+    }
+
+    private StoreSticket storeSticket;
+
     private Integer id;
 
     private String ticketNum;

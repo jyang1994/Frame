@@ -61,7 +61,7 @@ public class HomeController {
         System.out.println(subject.hasRole("finance")+"---------------------------");
         try{
             subject.login(usernamePasswordToken);
-            if(subject.hasRole("finance") || subject.hasRole("store")){
+            if(subject.hasRole("finance") || subject.hasRole("ticket")){
 
 
                 SavedRequest savedRequest = WebUtils.getSavedRequest(request);
