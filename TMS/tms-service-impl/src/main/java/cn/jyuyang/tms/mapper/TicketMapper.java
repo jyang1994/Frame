@@ -3,6 +3,8 @@ package cn.jyuyang.tms.mapper;
 import cn.jyuyang.tms.entity.Ticket;
 import cn.jyuyang.tms.entity.TicketExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface TicketMapper {
@@ -35,4 +37,13 @@ public interface TicketMapper {
      * @return
      */
     List<Ticket> selectTicketAndStore();
+
+    /**
+     * 查找票号区间
+     * @param outStartTicket
+     * @param outEndTicket
+     * @return
+     */
+    List<Ticket> selectBetweenStartAndEnd(@Param("start") String outStartTicket, @Param("end") String outEndTicket);
+    Map<String,Long> tongjiByState();
 }

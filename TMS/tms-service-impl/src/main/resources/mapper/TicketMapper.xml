@@ -31,6 +31,27 @@
             <result column="state" jdbcType="VARCHAR" property="state" />
         </collection>
     </resultMap>
+    <select id="tongjiByState" resultType="java.util.Map">
+        SELECT
+            count(*) as total,
+            count(case when ticket_state = '正常' then 1 end) AS in_num,
+            count(case when ticket_state = '已下发' then 1 end) AS out_num,
+            count(case when ticket_state = '已卖出' then 1 end) AS sale_num,
+            count(case when ticket_state = '挂失' then 1 end) AS lost_num,
+            count(case when ticket_state = '作废' then 1 end) AS outtime_num
+        FROM
+            ticket
+    </select>
+    <select id="selectBetweenStartAndEnd" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM
+            ticket
+        WHERE
+            ticket_num >= CONVERT(#{start},UNSIGNED INT)
+            AND
+            ticket_num &lt;= CONVERT(#{end},UNSIGNED INT);
+    </select>
     <select id="selectTicketAndStore" resultMap="TicketAndStore">
         SELECT
             ticket.*, store_sticket.*

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TicketServiceImpl implements TicketService {
@@ -27,5 +28,16 @@ public class TicketServiceImpl implements TicketService {
 
         List<Ticket>  tickets =ticketMapper.selectTicketAndStore();
         return new PageInfo<>(tickets);
+    }
+
+    /**
+     * 统计年票数量，以状态分类
+     *
+     * @return
+     */
+    @Override
+    public Map<String, Long> findTongJiByState() {
+
+        return ticketMapper.tongjiByState();
     }
 }

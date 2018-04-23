@@ -1,6 +1,7 @@
 package cn.jyuyang.tms.service;
 
 import cn.jyuyang.tms.entity.StoreSticket;
+import cn.jyuyang.tms.entity.TicketOut;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -44,4 +45,5 @@ public interface StoreService {
      * @param id
      */
     void delStoreSticketById(Integer id);
+
 }

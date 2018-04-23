@@ -10,6 +10,10 @@ import java.util.Date;
 public class Ticket implements Serializable {
     public static final String TICKET_STATE_NORMAL = "正常";
     public static final String TICKET_STATE_DISABLE = "作废";
+    public static final String TICKET_STATE_LOSE = "挂失";
+    public static final String TICKET_STATE_SOLE = "已卖出";
+    public static final String TICKET_STATE_OUT = "已下发";
+
 
     public StoreSticket getStoreSticket() {
         return storeSticket;

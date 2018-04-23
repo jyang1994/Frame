@@ -1,10 +1,14 @@
 package cn.jyuyang.tms.controller;
 
 import cn.jyuyang.tms.dto.ResponseBean;
+import cn.jyuyang.tms.entity.StoreSticket;
 import cn.jyuyang.tms.entity.Ticket;
 import cn.jyuyang.tms.entity.TicketInLog;
+import cn.jyuyang.tms.entity.TicketOut;
 import cn.jyuyang.tms.exception.ServiceException;
+import cn.jyuyang.tms.service.StoreService;
 import cn.jyuyang.tms.service.TicketInLogService;
+import cn.jyuyang.tms.service.TicketOutservice;
 import cn.jyuyang.tms.service.TicketService;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/finance/ticket")
@@ -24,6 +29,10 @@ public class TicketController {
     private TicketInLogService ticketInLogService;
     @Autowired
     private TicketService ticketService;
+    @Autowired
+    private TicketOutservice ticketOutservice;
+    @Autowired
+    private StoreService storeService;
 
     @GetMapping("/in/home")
     public String ticketInHome(Model model) {
@@ -92,4 +101,48 @@ public class TicketController {
         model.addAttribute("ticketPageInfo",ticketPageInfo);
         return "ticket/in/all";
     }
+
+    @GetMapping("/out/home")
+    public String outHome(Model model){
+        List<TicketOut> ticketOutList = ticketOutservice.findAllTicketOut();
+        model.addAttribute("ticketOutList",ticketOutList);
+        return "ticket/out/home";
+    }
+
+    @GetMapping("/out/new")
+    public String newHome(Model model){
+        List<StoreSticket> storeSticketList = storeService.selectAllStoreStricket();
+        model.addAttribute("storeSticketList",storeSticketList);
+        return "ticket/out/new";
+    }
+
+    @PostMapping("/out/new")
+    public String newHome(TicketOut ticketOut,RedirectAttributes redirectAttributes){
+        try{
+            ticketOutservice.saveTicketOut(ticketOut);
+            return "redirect:/finance/ticket/out/home";
+        }catch(ServiceException ex){
+            redirectAttributes.addFlashAttribute("message",ex.getMessage());
+            return "redirect:/finance/ticket/out/new";
+        }
+
+    }
+    @GetMapping("/out/{id:\\d+}/del")
+    @ResponseBody
+    public ResponseBean delOut(@PathVariable Integer id){
+        try {
+            ticketOutservice.delTicketOutById(id);
+            return ResponseBean.success();
+        }catch (ServiceException ex){
+            return ResponseBean.error(ex.getMessage());
+        }
+    }
+
+    @GetMapping("/tongji")
+    public String tongjiByState(Model model){
+        Map<String,Long> maps = ticketService.findTongJiByState();
+        model.addAttribute("maps",maps);
+        return "ticket/tongji";
+    }
+
 }

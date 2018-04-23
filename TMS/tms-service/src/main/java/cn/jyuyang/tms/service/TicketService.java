@@ -3,13 +3,19 @@ package cn.jyuyang.tms.service;
 import cn.jyuyang.tms.entity.Ticket;
 import com.github.pagehelper.PageInfo;
 
+import java.util.Map;
+
 public interface TicketService {
     /**
      * 分页查询年票信息
      * @param pageNo
      * @return
      */
- PageInfo<Ticket> findTicketByPage(Integer pageNo);
+    PageInfo<Ticket> findTicketByPage(Integer pageNo);
 
-
- }
+    /**
+     * 统计年票数量，以状态分类
+     * @return
+     */
+    Map<String,Long> findTongJiByState();
+}
