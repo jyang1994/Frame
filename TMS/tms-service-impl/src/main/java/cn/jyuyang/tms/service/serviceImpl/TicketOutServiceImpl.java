@@ -31,8 +31,8 @@ public class TicketOutServiceImpl implements TicketOutservice{
     @Override
     public List<TicketOut> findAllTicketOut() {
         TicketOutExample ticketOutExample = new TicketOutExample();
+        ticketOutExample.setOrderByClause("id desc");
         return ticketOutMapper.selectByExample(ticketOutExample);
-
 
     }
 
@@ -104,5 +104,21 @@ public class TicketOutServiceImpl implements TicketOutservice{
         ticketOutMapper.deleteByPrimaryKey(id);
 
 
+    }
+
+    /**
+     * 支付id下发的记录
+     *
+     * @param id
+     */
+    @Override
+    public void payById(Integer id) {
+        TicketOut ticketOut = ticketOutMapper.selectByPrimaryKey(id);
+        if(ticketOut != null && ticketOut.getOutState().equals(TicketOut.NO_TICKET_PAY)) {
+            ticketOut.setOutState(TicketOut.TICKET_PAY);
+            ticketOutMapper.updateByPrimaryKey(ticketOut);
+        }else{
+            throw new ServiceException("参数错误");
+        }
     }
 }

@@ -22,4 +22,10 @@ public interface TicketOutservice {
      * @param id
      */
     void delTicketOutById(Integer id);
+
+    /**
+     * 支付id下发的记录
+     * @param id
+     */
+    void payById(Integer id);
 }

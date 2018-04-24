@@ -19,7 +19,7 @@
     <!-- =============================================== -->
 
     <jsp:include page="../../include/sider.jsp">
-        <jsp:param name="menu" value="ticket_out"/>
+        <jsp:param name="menu" value="ticket_pay"/>
     </jsp:include>
     <!-- =============================================== -->
 
@@ -38,22 +38,13 @@
                 <div class="box-header">
                     <h3 class="box-title">年票下发列表</h3>
 
-                    <div class="box-tools">
-
-                            <a href="/finance/ticket/out/new" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> 新增下发</a>
-
-
-
-                    </div>
-
-
                 </div>
                 <div class="box-body">
 
                     <table class="table tree">
                         <thead>
                         <tr>
-                            <th>下发人</th>
+                            <th>负责人</th>
                             <th>下发时间</th>
                             <th>下发点</th>
                             <th>起始票号</th>
@@ -78,14 +69,13 @@
                                 <td>${ticketOut.onePrice}</td>
                                 <td>${ticketOut.totalPrice}</td>
                                 <td>
-
-                                    <button class="btn btn-xs ${ticketOut.outState == '未支付'? 'btn-danger': 'btn-success'}" >${ticketOut.outState}</button>
+                                    <button class="btn btn-xs btn-danger" >${ticketOut.outState}</button>
                                 </td>
-                                <td>    
-                                       <c:if test="${ticketOut.outState == '未支付'}">
-                                        <a class="btn btn-default btn-xs delLink" rel="${ticketOut.id}"
-                                           href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>
-                                       </c:if>
+                                <td>
+                                    <c:if test="${ticketOut.outState == '未支付'}">
+                                    <a class="btn btn-success btn-xs pay" rel="${ticketOut.id}"
+                                       href="javascript:;" title="确认支付">确认支付</a>
+                                    </c:if>
                                 </td>
                             </tr>
 
@@ -106,15 +96,15 @@
 <script>
     $(function () {
         $('.tree').treegrid();
-        $(".delLink").click(function () {
+        $(".pay").click(function () {
             var id = $(this).attr("rel");
             console.log(id)
-            layer.confirm("确定要删除吗？", function (index) {
+            layer.confirm("确定支付吗？", function (index) {
                 layer.close(index);
-                $.get("/finance/ticket/out/" + id + "/del").done(function (result) {
+                $.get("/finance/ticket/out/" + id + "/pay").done(function (result) {
 
                     if (result.status == "success") {
-                        layer.msg("删除成功")
+                        layer.msg("支付成功")
                         history.go(0);
                     } else {
                         layer.msg(result.message);

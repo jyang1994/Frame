@@ -144,5 +144,23 @@ public class TicketController {
         model.addAttribute("maps",maps);
         return "ticket/tongji";
     }
+    @GetMapping("/out/pay")
+    public String pay(Model model){
+        List<TicketOut> ticketOutList = ticketOutservice.findAllTicketOut();
+        model.addAttribute("ticketOutList",ticketOutList);
+        return "ticket/out/pay";
+    }
+
+    @GetMapping("/out/{id:\\d+}/pay")
+    @ResponseBody
+    public ResponseBean payById(@PathVariable Integer id){
+        try{
+            ticketOutservice.payById(id);
+            return ResponseBean.success();
+        }catch (ServiceException ex){
+            return ResponseBean.error(ex.getMessage());
+        }
+    }
+
 
 }
