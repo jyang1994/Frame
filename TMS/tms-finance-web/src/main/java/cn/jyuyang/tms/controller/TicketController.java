@@ -11,7 +11,6 @@ import cn.jyuyang.tms.service.TicketInLogService;
 import cn.jyuyang.tms.service.TicketOutservice;
 import cn.jyuyang.tms.service.TicketService;
 import com.github.pagehelper.PageInfo;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;

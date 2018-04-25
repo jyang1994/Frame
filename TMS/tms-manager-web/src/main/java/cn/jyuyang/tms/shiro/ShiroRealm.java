@@ -21,9 +21,6 @@ public class ShiroRealm extends AuthorizingRealm {
     Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
     @Autowired
     private AccountService accountService;
-
-
-
     @Autowired
     private RolesPermissionService rolesPermissionService;
 
