@@ -1,11 +1,13 @@
 package cn.jyuyang.tms.service.serviceImpl;
 
-import cn.jyuyang.tms.entity.*;
+import cn.jyuyang.tms.entity.Ticket;
+import cn.jyuyang.tms.entity.TicketExample;
+import cn.jyuyang.tms.entity.TicketInLog;
+import cn.jyuyang.tms.entity.TicketInLogExample;
 import cn.jyuyang.tms.exception.ServiceException;
 import cn.jyuyang.tms.mapper.TicketInLogMapper;
 import cn.jyuyang.tms.mapper.TicketMapper;
 import cn.jyuyang.tms.service.TicketInLogService;
-import cn.jyuyang.tms.util.ShiroUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +32,7 @@ public class TicketInLogServiceImpl implements TicketInLogService {
     @Transactional(rollbackFor = RuntimeException.class)
     public void saveTicketInlog(TicketInLog ticketInLog) {
 
-        Account account = ShiroUtil.getLoginAccount();
-
-        ticketInLog.setAccountName(account.getUsername());
         ticketInLog.setCreateTime(new Date());
-
         BigInteger beginNum = new BigInteger(ticketInLog.getStartNum());
         BigInteger endNum = new BigInteger(ticketInLog.getEndNum());
         BigInteger totalNum = endNum.subtract(beginNum).add(new BigInteger(String.valueOf(1)));

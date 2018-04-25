@@ -11,13 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.print.ServiceUI;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class TicketOutServiceImpl implements TicketOutservice{
+public class TicketOutServiceImpl implements TicketOutservice {
     @Autowired
     private TicketOutMapper ticketOutMapper;
     @Autowired
@@ -42,46 +43,46 @@ public class TicketOutServiceImpl implements TicketOutservice{
      * @param ticketOut
      */
     @Override
-    @Transactional(rollbackFor= RuntimeException.class)
+    @Transactional(rollbackFor = RuntimeException.class)
     public void saveTicketOut(TicketOut ticketOut) {
 
         BigInteger start = new BigInteger(ticketOut.getOutStartTicket());
         BigInteger end = new BigInteger(ticketOut.getOutEndTicket());
         Integer totalTemp = end.subtract(start).add(new BigInteger(String.valueOf(1))).intValue();
 
-        if(totalTemp <= 0) {
-           throw new ServiceException("输入的票号区间有问题，请核对后重试！");
+        if (totalTemp <= 0) {
+            throw new ServiceException("输入的票号区间有问题，请核对后重试！");
         }
 
-        List<Ticket> ticketList = ticketMapper.selectBetweenStartAndEnd(ticketOut.getOutStartTicket(),ticketOut.getOutEndTicket());
-        for(Ticket ticket : ticketList) {
-            if(!ticket.getTicketState().equals(Ticket.TICKET_STATE_NORMAL)){
+        List<Ticket> ticketList = ticketMapper.selectBetweenStartAndEnd(ticketOut.getOutStartTicket(), ticketOut.getOutEndTicket());
+
+        for (Ticket ticket : ticketList) {
+            if (!ticket.getTicketState().equals(Ticket.TICKET_STATE_NORMAL)) {
                 throw new ServiceException("有部分票号无法使用！");
             }
         }
 
         TicketExample startTicketExample = new TicketExample();
         startTicketExample.createCriteria().andTicketNumEqualTo(ticketOut.getOutStartTicket());
-         TicketExample endTicketExample = new TicketExample();
+        TicketExample endTicketExample = new TicketExample();
         endTicketExample.createCriteria().andTicketNumEqualTo(ticketOut.getOutEndTicket());
 
-        if(ticketMapper.selectByExample(startTicketExample).size() == 0 || ticketMapper.selectByExample(endTicketExample).size() == 0){
+        if (ticketMapper.selectByExample(startTicketExample).size() == 0 || ticketMapper.selectByExample(endTicketExample).size() == 0) {
             throw new ServiceException("部分票号不存在！");
         }
 
 
         Integer totalNum = ticketList.size();
 
-        BigDecimal totalPrice =  ticketOut.getOnePrice().multiply(new BigDecimal(totalNum));
-        Subject subject =SecurityUtils.getSubject();
-        Account account = (Account) subject.getPrincipal();
+        BigDecimal totalPrice = ticketOut.getOnePrice().multiply(new BigDecimal(totalNum));
+
 
         ticketOut.setOutTime(new Date());
-        ticketOut.setContent(ticketOut.getOutStartTicket() +"--"+ticketOut.getOutEndTicket());
+        ticketOut.setContent(ticketOut.getOutStartTicket() + "--" + ticketOut.getOutEndTicket());
         ticketOut.setTotalPrice(totalPrice);
         ticketOut.setOutNum(totalNum);
         ticketOut.setOutState(TicketOut.NO_TICKET_PAY);
-        ticketOut.setOutAccount(account.getUsername());
+
         ticketOutMapper.insertSelective(ticketOut);
     }
 
@@ -93,11 +94,11 @@ public class TicketOutServiceImpl implements TicketOutservice{
     @Override
     public void delTicketOutById(Integer id) {
         TicketOut ticketOut = ticketOutMapper.selectByPrimaryKey(id);
-        if(ticketOut == null){
+        if (ticketOut == null) {
             throw new ServiceException("参数错误！！！");
         }
 
-        if(TicketOut.TICKET_PAY.equals(ticketOut.getOutState())){
+        if (TicketOut.TICKET_PAY.equals(ticketOut.getOutState())) {
             throw new ServiceException("该记录已经支付，不能删除");
         }
 
@@ -114,10 +115,14 @@ public class TicketOutServiceImpl implements TicketOutservice{
     @Override
     public void payById(Integer id) {
         TicketOut ticketOut = ticketOutMapper.selectByPrimaryKey(id);
-        if(ticketOut != null && ticketOut.getOutState().equals(TicketOut.NO_TICKET_PAY)) {
+        if (ticketOut != null && ticketOut.getOutState().equals(TicketOut.NO_TICKET_PAY)) {
+            List<Ticket> ticketList = ticketMapper.selectBetweenStartAndEnd(ticketOut.getOutStartTicket(),ticketOut.getOutEndTicket());
+            for(Ticket ticket : ticketList) {
+                ticket.setTicketState(Ticket.TICKET_STATE_OUT);
+            }
             ticketOut.setOutState(TicketOut.TICKET_PAY);
             ticketOutMapper.updateByPrimaryKey(ticketOut);
-        }else{
+        } else {
             throw new ServiceException("参数错误");
         }
     }

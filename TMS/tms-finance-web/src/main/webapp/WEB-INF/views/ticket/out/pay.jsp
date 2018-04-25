@@ -69,11 +69,11 @@
                                 <td>${ticketOut.onePrice}</td>
                                 <td>${ticketOut.totalPrice}</td>
                                 <td>
-                                    <button class="btn btn-xs btn-danger" >${ticketOut.outState}</button>
+                                    <button class="btn btn-xs ${ticketOut.outState == '未支付'?'btn-danger':'btn-success'}" >${ticketOut.outState}</button>
                                 </td>
                                 <td>
                                     <c:if test="${ticketOut.outState == '未支付'}">
-                                    <a class="btn btn-success btn-xs pay" rel="${ticketOut.id}"
+                                    <a class="btn btn-warning btn-xs pay" rel="${ticketOut.id}"
                                        href="javascript:;" title="确认支付">确认支付</a>
                                     </c:if>
                                 </td>

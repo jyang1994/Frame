@@ -16,6 +16,7 @@
                 </shiro:hasPermission>
 
                 <li class="${param.menu == 'ticket_out' ? 'active' : ''}"><a href="/finance/ticket/out/home"><i class="fa fa-circle-o"></i> <span>年票下发</span></a></li>
+                <li class="${param.menu == 'ticket_invalid' ? 'active' : ''}"><a href="/finance/ticket/all"><i class="fa fa-circle-o"></i> <span>年票作废</span></a></li>
 
                 <li class="header">结算管理</li>
                 <li class="${param.menu == 'ticket_pay' ? 'active' : ''}"><a href="/finance/ticket/out/pay"><i class="fa fa-circle-o"></i> <span>缴费管理</span></a></li>

@@ -50,7 +50,7 @@
         WHERE
             ticket_num >= CONVERT(#{start},UNSIGNED INT)
             AND
-            ticket_num &lt;= CONVERT(#{end},UNSIGNED INT);
+            ticket_num &lt;= CONVERT(#{end},UNSIGNED INT)
     </select>
     <select id="selectTicketAndStore" resultMap="TicketAndStore">
         SELECT

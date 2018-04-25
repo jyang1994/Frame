@@ -1,16 +1,15 @@
 package cn.jyuyang.tms.controller;
 
 import cn.jyuyang.tms.dto.ResponseBean;
-import cn.jyuyang.tms.entity.StoreSticket;
-import cn.jyuyang.tms.entity.Ticket;
-import cn.jyuyang.tms.entity.TicketInLog;
-import cn.jyuyang.tms.entity.TicketOut;
+import cn.jyuyang.tms.entity.*;
 import cn.jyuyang.tms.exception.ServiceException;
 import cn.jyuyang.tms.service.StoreService;
 import cn.jyuyang.tms.service.TicketInLogService;
 import cn.jyuyang.tms.service.TicketOutservice;
 import cn.jyuyang.tms.service.TicketService;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,6 +50,10 @@ public class TicketController {
             if (ticketInLog == null) {
                 return "ticket/in/new";
             }
+            Subject subject = SecurityUtils.getSubject();
+            Account account = (Account) subject.getPrincipal();
+
+            ticketInLog.setAccountName(account.getUsername());
             ticketInLogService.saveTicketInlog(ticketInLog);
             return "redirect:/finance/ticket/in/home";
         } catch (ServiceException ex) {
@@ -95,8 +98,10 @@ public class TicketController {
     }
 
     @GetMapping("/all")
-    public String allTicket(@RequestParam(defaultValue = "1",name = "p",required = false) Integer pageNo, Model model){
-        PageInfo<Ticket> ticketPageInfo = ticketService.findTicketByPage(pageNo);
+    public String allTicket(@RequestParam(defaultValue = "1",name = "p",required = false) Integer pageNo,
+                            @RequestParam(defaultValue = "", name = "ticketNum",required = false) String ticketNum,
+                            Model model){
+        PageInfo<Ticket> ticketPageInfo = ticketService.findTicketByPage(pageNo,ticketNum);
         model.addAttribute("ticketPageInfo",ticketPageInfo);
         return "ticket/in/all";
     }
@@ -118,6 +123,9 @@ public class TicketController {
     @PostMapping("/out/new")
     public String newHome(TicketOut ticketOut,RedirectAttributes redirectAttributes){
         try{
+            Subject subject = SecurityUtils.getSubject();
+            Account account = (Account) subject.getPrincipal();
+            ticketOut.setOutAccount(account.getUsername());
             ticketOutservice.saveTicketOut(ticketOut);
             return "redirect:/finance/ticket/out/home";
         }catch(ServiceException ex){
@@ -157,6 +165,17 @@ public class TicketController {
             ticketOutservice.payById(id);
             return ResponseBean.success();
         }catch (ServiceException ex){
+            return ResponseBean.error(ex.getMessage());
+        }
+    }
+    @GetMapping("/{id:\\d+}/invalid")
+    @ResponseBody
+    public ResponseBean invalid(@PathVariable Integer id){
+        System.out.println("-------------------------------1");
+        try{
+            ticketService.invalidById(id);
+            return ResponseBean.success();
+        }catch (ServiceException ex) {
             return ResponseBean.error(ex.getMessage());
         }
     }
