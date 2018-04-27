@@ -71,7 +71,8 @@ public class RolesPermissionServiceImpl implements RolesPermissionService{
     public List<Permission> findAllPermission() {
         PermissionExample permissionExample = new PermissionExample();
        // permissionExample.setOrderByClause("parent_id desc");
-        List<Permission> permissionList = permissionMapper.selectByExample(permissionExample);        List<Permission> resList = new ArrayList<>();
+        List<Permission> permissionList = permissionMapper.selectByExample(permissionExample);
+        List<Permission> resList = new ArrayList<>();
         permissionListUtil(permissionList,resList,0);
         return resList;
     }

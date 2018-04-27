@@ -1,10 +1,7 @@
 package cn.jyuyang.tms.controller;
 
 import cn.jyuyang.tms.dto.ResponseBean;
-import cn.jyuyang.tms.entity.Customer;
-import cn.jyuyang.tms.entity.Sales;
-import cn.jyuyang.tms.entity.StoreAccount;
-import cn.jyuyang.tms.entity.Ticket;
+import cn.jyuyang.tms.entity.*;
 import cn.jyuyang.tms.exception.ServiceException;
 import cn.jyuyang.tms.service.SaleService;
 import cn.jyuyang.tms.service.TicketService;
@@ -24,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 年票销售控制器
@@ -98,8 +96,8 @@ public class SalesController {
     public String saleHome(Customer customer, Sales sales,RedirectAttributes redirectAttributes){
 
         Subject subject = SecurityUtils.getSubject();
-        StoreAccount storeAccount = (StoreAccount) subject.getPrincipal();
-        sales.setSaleStoreId(storeAccount.getStoreSciketId());
+        StoreSticket storeSticket = (StoreSticket) subject.getPrincipal();
+        sales.setSaleStoreId(storeSticket.getId());
         try {
             saleService.saveCustomerAndSales(customer, sales);
             return "redirect:/sale/list";
@@ -188,7 +186,12 @@ public class SalesController {
         }
     }
     @GetMapping("/sale/tongji")
-    public String tongji(){
+    public String tongji(Model model){
+        Subject subject = SecurityUtils.getSubject();
+        StoreSticket storeSticket = (StoreSticket) subject.getPrincipal();
+        System.out.println("id-------------"+storeSticket.getId());
+        Map<String,Integer> maps = ticketService.tongjiByStoreId(storeSticket.getId());
+        model.addAttribute("maps",maps);
         return "sale/tongji";
     }
 }

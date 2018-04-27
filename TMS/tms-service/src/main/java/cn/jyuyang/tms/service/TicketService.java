@@ -31,4 +31,11 @@ public interface TicketService {
      * @return
      */
     Ticket seleteByTicketNum(String ticketnum);
+
+    /**
+     * 统计售票点销售情况
+     * @param id
+     * @return
+     */
+    Map<String,Integer> tongjiByStoreId(Integer id);
 }

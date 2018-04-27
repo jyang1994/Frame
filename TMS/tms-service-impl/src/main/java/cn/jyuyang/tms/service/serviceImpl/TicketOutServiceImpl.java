@@ -2,6 +2,7 @@ package cn.jyuyang.tms.service.serviceImpl;
 
 import cn.jyuyang.tms.entity.*;
 import cn.jyuyang.tms.exception.ServiceException;
+import cn.jyuyang.tms.mapper.StoreSticketMapper;
 import cn.jyuyang.tms.mapper.TicketMapper;
 import cn.jyuyang.tms.mapper.TicketOutMapper;
 import cn.jyuyang.tms.service.TicketOutservice;
@@ -23,7 +24,8 @@ public class TicketOutServiceImpl implements TicketOutservice {
     private TicketOutMapper ticketOutMapper;
     @Autowired
     private TicketMapper ticketMapper;
-
+    @Autowired
+    private StoreSticketMapper storeSticketMapper;
     /**
      * 查找所有的下发记录信息
      *
@@ -113,17 +115,29 @@ public class TicketOutServiceImpl implements TicketOutservice {
      * @param id
      */
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void payById(Integer id) {
+
         TicketOut ticketOut = ticketOutMapper.selectByPrimaryKey(id);
         if (ticketOut != null && ticketOut.getOutState().equals(TicketOut.NO_TICKET_PAY)) {
+
             List<Ticket> ticketList = ticketMapper.selectBetweenStartAndEnd(ticketOut.getOutStartTicket(),ticketOut.getOutEndTicket());
+
+            StoreSticketExample storeSticketExample = new StoreSticketExample();
+            storeSticketExample.createCriteria().andStoreNameEqualTo(ticketOut.getOutStore());
+
+            StoreSticket storeSticket = storeSticketMapper.selectByExample(storeSticketExample).get(0);
+
             for(Ticket ticket : ticketList) {
                 ticket.setTicketState(Ticket.TICKET_STATE_OUT);
+                ticket.setStoreId(storeSticket.getId());
+                ticketMapper.updateByPrimaryKeySelective(ticket);
             }
             ticketOut.setOutState(TicketOut.TICKET_PAY);
             ticketOutMapper.updateByPrimaryKey(ticketOut);
         } else {
             throw new ServiceException("参数错误");
         }
+
     }
 }

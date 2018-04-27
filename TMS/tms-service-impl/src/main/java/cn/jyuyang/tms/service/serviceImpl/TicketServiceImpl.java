@@ -83,4 +83,16 @@ public class TicketServiceImpl implements TicketService {
         }
         return ticketList.get(0);
     }
+
+    /**
+     * 统计售票点销售情况
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Map<String, Integer> tongjiByStoreId(Integer id) {
+
+        return ticketMapper.tongjiByStoreId(id);
+    }
 }

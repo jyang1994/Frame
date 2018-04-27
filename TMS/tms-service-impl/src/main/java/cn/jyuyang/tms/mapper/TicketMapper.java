@@ -8,6 +8,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 public interface TicketMapper {
+    Map<String,Integer> tongjiByStoreId(Integer id);
+
     long countByExample(TicketExample example);
 
     int deleteByExample(TicketExample example);

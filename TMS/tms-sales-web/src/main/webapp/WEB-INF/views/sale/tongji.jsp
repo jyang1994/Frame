@@ -36,26 +36,25 @@
         <!-- Main content -->
         <section class="content">
             <div class="box">
-                <div class="box-header">
-                    <h4>年票挂失</h4>
-
-                    <a class="btn btn-success btn-xs col-xs-offset-11" href="/sale/ticket/lose"> 返回上一级</a>
-
+                <div class="box-body">
+                    <h4>销售统计</h4>
                 </div>
                 <div class="box-body">
                     <table class="table">
                         <tbody>
-                        <tr>
-                            <td class="text-muted">总计：</td>
-                            <td class="">${ticekt.ticketNum}</td>
+                        <tr class="active">
+                            <td class="text-muted">总计：${maps.total}</td>
 
-                            <td class=" text-muted">库存：</td>
-                            <td class="">${ticekt.ticketState}</td>
 
-                            <td class="  text-muted">销售：</td>
-                            <td class="">${ticekt.customerId}</td>
-                            <td class=" text-muted">挂失：</td>
-                            <td class=""><fmt:formatDate value="${ticekt.createTime}"/></td>
+                            <td class=" text-muted">库存：${maps.out_num}</td>
+
+
+                            <td class="  text-muted">销售：${maps.sale_num}</td>
+
+                            <td class=" text-muted">挂失：${maps.lose_num}</td>
+
+                            <td class=" text-muted">作废：${maps.disable_num}</td>
+
                         </tr>
 
                         </tbody>
