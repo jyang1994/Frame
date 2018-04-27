@@ -68,4 +68,19 @@ public class TicketServiceImpl implements TicketService {
         ticket.setUpdateTime(new Date());
         ticketMapper.updateByPrimaryKeySelective(ticket);
     }
+
+    /**
+     * @param ticketnum
+     * @return
+     */
+    @Override
+    public Ticket seleteByTicketNum(String ticketnum) {
+        TicketExample ticketExample = new TicketExample();
+        ticketExample.createCriteria().andTicketNumEqualTo(ticketnum);
+        List<Ticket> ticketList = ticketMapper.selectByExample(ticketExample);
+        if(ticketList.size() == 0 ) {
+            throw  new ServiceException("参数错误！");
+        }
+        return ticketList.get(0);
+    }
 }

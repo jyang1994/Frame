@@ -12,4 +12,7 @@
     <dubbo:service interface="cn.jyuyang.tms.service.TicketInLogService" ref="ticketInLogServiceImpl"/>
     <dubbo:service interface="cn.jyuyang.tms.service.TicketOutservice" ref="ticketOutServiceImpl"/>
     <dubbo:service interface="cn.jyuyang.tms.service.TicketService" ref="ticketServiceImpl"/>
+
+    <dubbo:service interface="cn.jyuyang.tms.service.StoreAccountService" ref="storeAccountServiceImpl"/>
+    <dubbo:service interface="cn.jyuyang.tms.service.SaleService" ref="saleServiceImpl"/>
 </beans>

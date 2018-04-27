@@ -6,6 +6,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface StoreAccountMapper {
+
+    StoreAccount findAccountWithStore(String mobile);
+
     long countByExample(StoreAccountExample example);
 
     int deleteByExample(StoreAccountExample example);

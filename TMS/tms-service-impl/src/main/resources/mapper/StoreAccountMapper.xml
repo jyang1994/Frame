@@ -11,6 +11,34 @@
     <result column="store_sciket_id" jdbcType="INTEGER" property="storeSciketId" />
     <result column="state" jdbcType="VARCHAR" property="state" />
   </resultMap>
+  <resultMap id="accountAndStore" type="cn.jyuyang.tms.entity.StoreAccount" extends="BaseResultMap">
+      <collection property="storeSticket" ofType="cn.jyuyang.tms.entity.StoreSticket">
+        <id column="store_sciket_id" property="id"/>
+        <result column="manager_name" jdbcType="VARCHAR" property="managerName" />
+        <result column="manager_mobile" jdbcType="VARCHAR" property="managerMobile" />
+        <result column="store_name" jdbcType="VARCHAR" property="storeName" />
+        <result column="ticket_store_address" jdbcType="VARCHAR" property="ticketStoreAddress" />
+        <result column="business_license_photo" jdbcType="VARCHAR" property="businessLicensePhoto" />
+        <result column="manager_card" jdbcType="VARCHAR" property="managerCard" />
+        <result column="manager_card_before" jdbcType="VARCHAR" property="managerCardBefore" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="account_id" jdbcType="INTEGER" property="accountId" />
+        <result column="store_longitude" jdbcType="VARCHAR" property="storeLongitude" />
+        <result column="store_latitude" jdbcType="VARCHAR" property="storeLatitude" />
+        <result column="manager_card_after" jdbcType="VARCHAR" property="managerCardAfter" />
+        <result column="state" jdbcType="VARCHAR" property="state" />
+      </collection>
+  </resultMap>
+  <select id="findAccountWithStore" parameterType="java.lang.String" resultMap="accountAndStore">
+    SELECT
+      store_account.*, store_sticket.*
+    FROM
+      store_account
+      LEFT JOIN store_sticket ON store_account.store_sciket_id = store_sticket.id
+    WHERE
+      store_account.manager_mobile =#{mobile}
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">

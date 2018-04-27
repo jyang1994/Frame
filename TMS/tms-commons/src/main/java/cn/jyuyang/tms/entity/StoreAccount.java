@@ -8,6 +8,7 @@ import java.util.Date;
  * @author 
  */
 public class StoreAccount implements Serializable {
+
     private Integer id;
 
     /**
@@ -26,6 +27,8 @@ public class StoreAccount implements Serializable {
     private Integer storeSciketId;
 
     private String state;
+
+    public StoreSticket storeSticket;
 
     private static final long serialVersionUID = 1L;
 
@@ -91,6 +94,14 @@ public class StoreAccount implements Serializable {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public StoreSticket getStoreSticket() {
+        return storeSticket;
+    }
+
+    public void setStoreSticket(StoreSticket storeSticket) {
+        this.storeSticket = storeSticket;
     }
 
     @Override

@@ -24,4 +24,11 @@ public interface TicketService {
      * @param id
      */
     void invalidById(Integer id);
+
+    /**
+     *
+     * @param ticketnum
+     * @return
+     */
+    Ticket seleteByTicketNum(String ticketnum);
 }

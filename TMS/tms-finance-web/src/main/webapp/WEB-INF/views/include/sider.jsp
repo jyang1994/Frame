@@ -22,7 +22,6 @@
                 <li class="${param.menu == 'ticket_pay' ? 'active' : ''}"><a href="/finance/ticket/out/pay"><i class="fa fa-circle-o"></i> <span>缴费管理</span></a></li>
 
             </shiro:hasRole>
-
         </ul>
     </section>
     <!-- /.sidebar -->

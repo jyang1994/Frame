@@ -1,11 +1,11 @@
 package cn.jyuyang.tms.shiro;
 
+import cn.jyuyang.tms.entity.*;
 import cn.jyuyang.tms.entity.Account;
-import cn.jyuyang.tms.entity.AccountLoginLog;
-import cn.jyuyang.tms.entity.Permission;
-import cn.jyuyang.tms.entity.Roles;
 import cn.jyuyang.tms.service.AccountService;
 import cn.jyuyang.tms.service.RolesPermissionService;
+import cn.jyuyang.tms.service.StoreAccountService;
+import cn.jyuyang.tms.service.StoreService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -20,21 +20,16 @@ import java.util.*;
 public class ShiroRealm extends AuthorizingRealm {
     Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
     @Autowired
-    private AccountService accountService;
-
+    private StoreAccountService storeAccountService;
 
 
     @Autowired
-    private RolesPermissionService rolesPermissionService;
+    private StoreService storeService;
 
-    /**
-     * 判断角色和权限
-     * @param principalCollection
-     * @return
-     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        Account account = (Account) principalCollection.getPrimaryPrincipal();
+
+       /* Account account = (Account) principalCollection.getPrimaryPrincipal();
 
         List<Roles> rolesList = rolesPermissionService.findRolesByAccountId(account.getId());
         List<Permission> permissionList = new ArrayList<>();
@@ -57,8 +52,11 @@ public class ShiroRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         simpleAuthorizationInfo.setRoles(rolesCodeSet);
         simpleAuthorizationInfo.setStringPermissions(permissonCodeSet);
-        return simpleAuthorizationInfo;
+        return simpleAuthorizationInfo;*/
+       return null;
+
     }
+
 
     /**
      * 判断登录
@@ -73,24 +71,25 @@ public class ShiroRealm extends AuthorizingRealm {
         String userName = usernamePasswordToken.getUsername();
 
         if(userName != null) {
-            Account account = accountService.findAccountByUserName(userName);
+            StoreAccount account = storeAccountService.findStoreAccountWithStore(userName);
+
             if (account == null ) {
-                throw new UnknownAccountException("找不到该账号: "+userName);
-            }else if(account.getAccLock() == 1 && account.getDisable()==1) {
+
+                throw new UnknownAccountException("找不到该账号: "+account.getManagerMobile());
+            }else if(true) {
+
+
                 logger.info("{} 登录成功: {}",account,usernamePasswordToken.getHost());
-                //保存登陆日志
-                AccountLoginLog accountLoginLog = new AccountLoginLog();
-                accountLoginLog.setLoginTime(new Date());
-                accountLoginLog.setAccountId(account.getId());
-                accountLoginLog.setLoginIp(usernamePasswordToken.getHost());
-                accountService.saveAccountLoginLog(accountLoginLog);
-                return new SimpleAuthenticationInfo(account,account.getPassword(),getName());
+               StoreSticket storeSticket = storeService.selectStoreStricketById(account.getStoreSciketId());
+
+                return new SimpleAuthenticationInfo(storeSticket,account.getPassword(),getName());
             }else {
-                throw new LockedAccountException("帐号被禁用或者锁定");
+                throw new LockedAccountException("帐号被禁用");
             }
 
         }
 
         return null;
     }
+
 }

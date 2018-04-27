@@ -171,7 +171,7 @@ public class TicketController {
     @GetMapping("/{id:\\d+}/invalid")
     @ResponseBody
     public ResponseBean invalid(@PathVariable Integer id){
-        System.out.println("-------------------------------1");
+        System.out.println();
         try{
             ticketService.invalidById(id);
             return ResponseBean.success();

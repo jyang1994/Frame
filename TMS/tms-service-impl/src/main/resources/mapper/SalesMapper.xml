@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jyuyang.tms.mapper.SalesMapper">
+  <resultMap id="BaseResultMap" type="cn.jyuyang.tms.entity.Sales">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sale_store_id" jdbcType="INTEGER" property="saleStoreId" />
+    <result column="sale_ticket_num" jdbcType="VARCHAR" property="saleTicketNum" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="sale_price" jdbcType="DECIMAL" property="salePrice" />
+    <result column="sale_state" jdbcType="VARCHAR" property="saleState" />
+    <result column="customer_id" jdbcType="INTEGER" property="customerId" />
+  </resultMap>
+  <resultMap id="saleWithCustomer" type="cn.jyuyang.tms.entity.Sales" extends="BaseResultMap">
+    <collection property="customer" ofType="cn.jyuyang.tms.entity.Customer">
+      <id property="id" column="customer_id"/>
+      <result column="username" jdbcType="VARCHAR" property="username" />
+      <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="card_num" jdbcType="INTEGER" property="cardNum" />
+      <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    </collection>
+  </resultMap>
+  <select id="findAllSalesAndCustomerByMobile"  resultMap="saleWithCustomer">
+    SELECT
+    sales.*, customer.*
+    FROM
+    `sales`
+    LEFT JOIN customer ON sales.customer_id = customer.id
+    where  customer.username=#{username}
+    ORDER BY sales.id DESC
+  </select>
+  <select id="findAllSalesAndCustomer"  resultMap="saleWithCustomer">
+    SELECT
+      sales.*, customer.*
+    FROM
+      `sales`
+      LEFT JOIN customer ON sales.customer_id = customer.id
+      <where>
+        <if test="username!=null and username!=''">
+            customer.username=#{username}
+        </if>
+        <if test="mobile!=null and mobile!=''">
+
+          and customer.mobile=#{mobile}
+        </if>
+      </where>
+      ORDER BY sales.id DESC
+  </select>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, sale_store_id, sale_ticket_num, create_time, sale_price, sale_state, customer_id
+  </sql>
+  <select id="selectByExample" parameterType="cn.jyuyang.tms.entity.SalesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sales
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sales
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sales
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.jyuyang.tms.entity.SalesExample">
+    delete from sales
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.jyuyang.tms.entity.Sales">
+    insert into sales (id, sale_store_id, sale_ticket_num, 
+      create_time, sale_price, sale_state, 
+      customer_id)
+    values (#{id,jdbcType=INTEGER}, #{saleStoreId,jdbcType=INTEGER}, #{saleTicketNum,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{salePrice,jdbcType=DECIMAL}, #{saleState,jdbcType=VARCHAR}, 
+      #{customerId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jyuyang.tms.entity.Sales">
+    insert into sales
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="saleStoreId != null">
+        sale_store_id,
+      </if>
+      <if test="saleTicketNum != null">
+        sale_ticket_num,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="salePrice != null">
+        sale_price,
+      </if>
+      <if test="saleState != null">
+        sale_state,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="saleStoreId != null">
+        #{saleStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="saleTicketNum != null">
+        #{saleTicketNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salePrice != null">
+        #{salePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="saleState != null">
+        #{saleState,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.jyuyang.tms.entity.SalesExample" resultType="java.lang.Long">
+    select count(*) from sales
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sales
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.saleStoreId != null">
+        sale_store_id = #{record.saleStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="record.saleTicketNum != null">
+        sale_ticket_num = #{record.saleTicketNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.salePrice != null">
+        sale_price = #{record.salePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.saleState != null">
+        sale_state = #{record.saleState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerId != null">
+        customer_id = #{record.customerId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sales
+    set id = #{record.id,jdbcType=INTEGER},
+      sale_store_id = #{record.saleStoreId,jdbcType=INTEGER},
+      sale_ticket_num = #{record.saleTicketNum,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      sale_price = #{record.salePrice,jdbcType=DECIMAL},
+      sale_state = #{record.saleState,jdbcType=VARCHAR},
+      customer_id = #{record.customerId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jyuyang.tms.entity.Sales">
+    update sales
+    <set>
+      <if test="saleStoreId != null">
+        sale_store_id = #{saleStoreId,jdbcType=INTEGER},
+      </if>
+      <if test="saleTicketNum != null">
+        sale_ticket_num = #{saleTicketNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salePrice != null">
+        sale_price = #{salePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="saleState != null">
+        sale_state = #{saleState,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jyuyang.tms.entity.Sales">
+    update sales
+    set sale_store_id = #{saleStoreId,jdbcType=INTEGER},
+      sale_ticket_num = #{saleTicketNum,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      sale_price = #{salePrice,jdbcType=DECIMAL},
+      sale_state = #{saleState,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
