@@ -1,6 +1,7 @@
 package cn.jyuyang.tms.service;
 
 import cn.jyuyang.tms.entity.Customer;
+import cn.jyuyang.tms.entity.CustomerPhoto;
 import cn.jyuyang.tms.entity.Sales;
 import com.github.pagehelper.PageInfo;
 
@@ -12,7 +13,7 @@ public interface SaleService {
      * @param customer
      * @param sales
      */
-    void saveCustomerAndSales(Customer customer, Sales sales);
+    void saveCustomerAndSales(Customer customer, Sales sales,CustomerPhoto customerPhoto);
 
     /**
      * 查到所有的销售记录

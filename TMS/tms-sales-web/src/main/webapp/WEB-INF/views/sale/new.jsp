@@ -7,6 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>TMS - 销售管理 - 年票销售</title>
     <%@include file="../include/css.jsp"%>
+    <style>
+
+        .photo {
+            width: 100%;
+            height: 250px;
+            border: 2px dashed #ccc;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 250px;
+        }
+    </style>
 </head>
 <body class="hold-transition skin-purple sidebar-mini">
 <!-- Site wrapper -->
@@ -51,7 +62,9 @@
                          <p class="bg-danger">${message}</p>
                      </c:if>--%>
                     <form method="post" id="saveForm">
-
+                        <input type="hidden" name="cardBefore" id="cardBefore">
+                        <input type="hidden" name="cardAfter" id="cardAfter">
+                        <input type="hidden" name="personPhoto" id="personPhoto">
                         <div class="form-group">
                             <label>消费者姓名</label>
                             <input type="text" name="username" class="form-control" placeholder="请输入消费者姓名">
@@ -79,7 +92,20 @@
                             <label>金额</label>
                             <input type="text"  name="salePrice" class="form-control" placeholder="请输入销售金额">
                         </div>
-
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div id="picker1">选择身份证正面照片</div>
+                                <div class="photo" id="userCardPhoto"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <div id="picker2">选择身份证反面照片</div>
+                                <div class="photo" id="userCardPhotoBack"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <div id="picker3">选择免冠照片</div>
+                                <div class="photo" id="userPhoto"></div>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="box-footer">
@@ -96,6 +122,135 @@
 <%@include file="../include/js.jsp"%>
 <script>
     $(function () {
+
+        var uploader = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: '/static/plugins/uploader/Uploader.swf',
+            // 文件接收服务端。
+            server: '/file/upload',
+            fileVal:'file',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#picker1',
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            }
+        });
+        var index = -1;
+        uploader.on( 'uploadStart', function( file ) {
+            index = layer.load(1);
+        });
+        uploader.on( 'uploadSuccess', function( file,response ) {
+            $("#userCardPhoto").html("");
+            if(response.status == 'success') {
+                var fileName = response.data;
+                var $img = $("<img>").attr("src","/file/down?fileId="+fileName).attr("width","200");
+                $img.appendTo($("#userCardPhoto"));
+                //将key存放到隐藏域中
+                $("#cardBefore").val(fileName);
+                layer.msg("上传成功");
+            } else {
+                layer.msg(response.message);
+            }
+        });
+        uploader.on( 'uploadError', function( file ) {
+            layer.msg("服务器异常");
+        });
+        uploader.on( 'uploadComplete', function( file ) {
+            layer.close(index);
+        });
+
+        var uploader2 = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: '/static/plugins/uploader/Uploader.swf',
+            // 文件接收服务端。
+            server: '/file/upload',
+            fileVal:'file',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#picker2',
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            }
+        });
+        var index = -1;
+        uploader2.on( 'uploadStart', function( file ) {
+            index = layer.load(1);
+        });
+        uploader2.on( 'uploadSuccess', function( file,response ) {
+            $("#userCardPhotoBack").html("");
+            if(response.status == 'success') {
+                var fileName = response.data;
+                var $img = $("<img>").attr("src","/file/down?fileId="+fileName).attr("width","200");
+                $img.appendTo($("#userCardPhotoBack"));
+                //将key存放到隐藏域中
+                $("#cardAfter").val(fileName);
+                layer.msg("上传成功");
+            } else {
+                layer.msg(response.message);
+            }
+        });
+        uploader2.on( 'uploadError', function( file ) {
+            layer.msg("服务器异常");
+        });
+        uploader2.on( 'uploadComplete', function( file ) {
+            layer.close(index);
+        });
+
+
+        var uploader3 = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: '/static/plugins/uploader/Uploader.swf',
+            // 文件接收服务端。
+            server: '/file/upload',
+            fileVal:'file',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#picker3',
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            }
+        });
+        var index = -1;
+        uploader3.on( 'uploadStart', function( file ) {
+            index = layer.load(1);
+        });
+        uploader3.on( 'uploadSuccess', function( file,response ) {
+            $("#userPhoto").html("");
+            if(response.status == 'success') {
+                var fileName = response.data;
+                var $img = $("<img>").attr("src","/file/down?fileId="+fileName).attr("width","200");
+                $img.appendTo($("#userPhoto"));
+                //将key存放到隐藏域中
+                $("#personPhoto").val(fileName);
+                layer.msg("上传成功");
+            } else {
+                layer.msg(response.message);
+            }
+        });
+        uploader3.on( 'uploadError', function( file ) {
+            layer.msg("服务器异常");
+        });
+        uploader3.on( 'uploadComplete', function( file ) {
+            layer.close(index);
+        });
+
+
         $("#saveBtn").click(function () {
             $("#saveForm").submit();
         });

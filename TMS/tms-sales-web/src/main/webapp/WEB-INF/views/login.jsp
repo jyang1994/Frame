@@ -19,7 +19,7 @@
     <div class="login_l_img"><img src="/static/dist/img/login-img.png" /></div>
     <div class="login">
         <div class="login_logo"><a href="#"><img src="/static/dist/img/login_logo.png" /></a></div>
-            <h3 class="login_name">TMS财务清算系统</h3>
+            <h3 class="login_name">TMS销售系统</h3>
             <c:if test="${not empty message}">
                 <p class="login-box-msg text-danger">${message}</p>
             </c:if>

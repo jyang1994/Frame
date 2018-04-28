@@ -1,11 +1,9 @@
 package cn.jyuyang.tms.service.serviceImpl;
 
-import cn.jyuyang.tms.entity.Customer;
-import cn.jyuyang.tms.entity.Sales;
-import cn.jyuyang.tms.entity.Ticket;
-import cn.jyuyang.tms.entity.TicketExample;
+import cn.jyuyang.tms.entity.*;
 import cn.jyuyang.tms.exception.ServiceException;
 import cn.jyuyang.tms.mapper.CustomerMapper;
+import cn.jyuyang.tms.mapper.CustomerPhotoMapper;
 import cn.jyuyang.tms.mapper.SalesMapper;
 import cn.jyuyang.tms.mapper.TicketMapper;
 import cn.jyuyang.tms.service.SaleService;
@@ -28,6 +26,8 @@ public class SaleServiceImpl implements SaleService {
     private SalesMapper salesMapper;
     @Autowired
     private TicketMapper ticketMapper;
+    @Autowired
+    private CustomerPhotoMapper customerPhotoMapper;
 
     /**
      * 保存消费哲信息和订单信息
@@ -36,7 +36,8 @@ public class SaleServiceImpl implements SaleService {
      * @param sales
      */
     @Override
-    public void saveCustomerAndSales(Customer customer, Sales sales) {
+    @Transactional(rollbackFor = RuntimeException.class)
+    public void saveCustomerAndSales(Customer customer, Sales sales, CustomerPhoto customerPhoto) {
 
         String res = sales.getSaleTicketNum();
         TicketExample ticketExample = new TicketExample();
@@ -46,13 +47,21 @@ public class SaleServiceImpl implements SaleService {
             throw new ServiceException("票号错误！请核对后重试！");
         }
 
+         //保存顾客信息
         customer.setCreateTime(new Date());
         customerMapper.insertSelective(customer);
+
+        //保存顾客证件照
+        customerPhoto.setCustomerId(customer.getId());
+        customerPhotoMapper.insertSelective(customerPhoto);
 
         sales.setCustomerId(customer.getId());
         sales.setCreateTime(new Date());
         sales.setSaleState("未支付");
+
         salesMapper.insertSelective(sales);
+
+
 
     }
 

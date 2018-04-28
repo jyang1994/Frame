@@ -93,13 +93,14 @@ public class SalesController {
         return "sale/new";
     }
     @PostMapping("/sale/new")
-    public String saleHome(Customer customer, Sales sales,RedirectAttributes redirectAttributes){
+    public String saleHome(Customer customer, Sales sales,CustomerPhoto customerPhoto,RedirectAttributes redirectAttributes){
 
         Subject subject = SecurityUtils.getSubject();
         StoreSticket storeSticket = (StoreSticket) subject.getPrincipal();
         sales.setSaleStoreId(storeSticket.getId());
+        System.out.println(customerPhoto.getCardAfter()+"----------------------");
         try {
-            saleService.saveCustomerAndSales(customer, sales);
+            saleService.saveCustomerAndSales(customer, sales,customerPhoto);
             return "redirect:/sale/list";
         }catch (ServiceException ex) {
             redirectAttributes.addFlashAttribute("message",ex.getMessage());
