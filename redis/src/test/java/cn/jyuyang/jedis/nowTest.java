@@ -12,6 +12,8 @@ import java.util.Map;
 
 public class nowTest {
 
+
+
         Jedis jedis = new Jedis("192.168.137.168",6379);
     @Test
     public void firstString(){
