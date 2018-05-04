@@ -33,45 +33,45 @@
     </resultMap>
     <select id="tongjiByStoreId" parameterType="java.lang.Integer" resultType="java.util.Map">
         SELECT
-            count(*) AS total,
-            count(case when ticket_state = '已下发' then 1 end) AS out_num,
-            count(case when ticket_state = '已销售' then 1 end) AS sale_num,
-            count(case when ticket_state = '挂失' then 1 end) AS lose_num,
-            count(case when ticket_state = '作废' then 1 end) AS disable_num
+        count(*) AS total,
+        count(case when ticket_state = '已下发' then 1 end) AS out_num,
+        count(case when ticket_state = '已销售' then 1 end) AS sale_num,
+        count(case when ticket_state = '挂失' then 1 end) AS lose_num,
+        count(case when ticket_state = '作废' then 1 end) AS disable_num
         FROM
-            ticket
-            LEFT JOIN store_sticket ON store_sticket.id = ticket.store_id
+        ticket
+        LEFT JOIN store_sticket ON store_sticket.id = ticket.store_id
         WHERE
-            store_sticket.id = #{id};
+        store_sticket.id = #{id};
     </select>
 
     <select id="tongjiByState" resultType="java.util.Map">
         SELECT
-            count(*) as total,
-            count(case when ticket_state = '正常' then 1 end) AS in_num,
-            count(case when ticket_state = '已下发' then 1 end) AS out_num,
-            count(case when ticket_state = '已销售' then 1 end) AS sale_num,
-            count(case when ticket_state = '挂失' then 1 end) AS lost_num,
-            count(case when ticket_state = '作废' then 1 end) AS outtime_num
+        count(*) as total,
+        count(case when ticket_state = '正常' then 1 end) AS in_num,
+        count(case when ticket_state = '已下发' then 1 end) AS out_num,
+        count(case when ticket_state = '已销售' then 1 end) AS sale_num,
+        count(case when ticket_state = '挂失' then 1 end) AS lost_num,
+        count(case when ticket_state = '作废' then 1 end) AS outtime_num
         FROM
-            ticket
+        ticket
     </select>
     <select id="selectBetweenStartAndEnd" resultMap="BaseResultMap">
         SELECT
-            *
+        *
         FROM
-            ticket
+        ticket
         WHERE
-            ticket_num >= CONVERT(#{start},UNSIGNED INT)
-            AND
-            ticket_num &lt;= CONVERT(#{end},UNSIGNED INT)
+        ticket_num >= CONVERT(#{start},UNSIGNED INT)
+        AND
+        ticket_num &lt;= CONVERT(#{end},UNSIGNED INT)
     </select>
     <select id="selectTicketAndStore" resultMap="TicketAndStore">
         SELECT
-            ticket.*, store_sticket.*
+        ticket.*, store_sticket.*
         FROM
-            `ticket`
-            LEFT JOIN store_sticket ON ticket.store_id = store_sticket.id
+        `ticket`
+        LEFT JOIN store_sticket ON ticket.store_id = store_sticket.id
 
     </select>
     <insert id="insertTicketList">
@@ -185,12 +185,12 @@
     </delete>
     <insert id="insert" parameterType="cn.jyuyang.tms.entity.Ticket">
         INSERT INTO ticket (id, ticket_num, ticket_in_time,
-                            ticket_out_time, ticket_state, customer_id,
-                            store_id, create_time, update_time
+        ticket_out_time, ticket_state, customer_id,
+        store_id, create_time, update_time
         )
         VALUES (#{id,jdbcType=INTEGER}, #{ticketNum,jdbcType=VARCHAR}, #{ticketInTime,jdbcType=TIMESTAMP},
-                #{ticketOutTime,jdbcType=TIMESTAMP}, #{ticketState,jdbcType=VARCHAR}, #{customerId,jdbcType=INTEGER},
-                #{storeId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        #{ticketOutTime,jdbcType=TIMESTAMP}, #{ticketState,jdbcType=VARCHAR}, #{customerId,jdbcType=INTEGER},
+        #{storeId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
         )
     </insert>
     <insert id="insertSelective" parameterType="cn.jyuyang.tms.entity.Ticket">
@@ -343,13 +343,13 @@
     <update id="updateByPrimaryKey" parameterType="cn.jyuyang.tms.entity.Ticket">
         UPDATE ticket
         SET ticket_num      = #{ticketNum,jdbcType=VARCHAR},
-            ticket_in_time  = #{ticketInTime,jdbcType=TIMESTAMP},
-            ticket_out_time = #{ticketOutTime,jdbcType=TIMESTAMP},
-            ticket_state    = #{ticketState,jdbcType=VARCHAR},
-            customer_id     = #{customerId,jdbcType=INTEGER},
-            store_id        = #{storeId,jdbcType=INTEGER},
-            create_time     = #{createTime,jdbcType=TIMESTAMP},
-            update_time     = #{updateTime,jdbcType=TIMESTAMP}
+        ticket_in_time  = #{ticketInTime,jdbcType=TIMESTAMP},
+        ticket_out_time = #{ticketOutTime,jdbcType=TIMESTAMP},
+        ticket_state    = #{ticketState,jdbcType=VARCHAR},
+        customer_id     = #{customerId,jdbcType=INTEGER},
+        store_id        = #{storeId,jdbcType=INTEGER},
+        create_time     = #{createTime,jdbcType=TIMESTAMP},
+        update_time     = #{updateTime,jdbcType=TIMESTAMP}
         WHERE id = #{id,jdbcType=INTEGER}
     </update>
 </mapper>
