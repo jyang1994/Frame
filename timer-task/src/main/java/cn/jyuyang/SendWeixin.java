@@ -5,10 +5,16 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-public class MyQuartzJob implements Job {
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
+public class SendWeixin implements Job {
 
-        System.out.println("Hello,Quartz!" + jobDataMap.get("phoneNumber"));
+    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+
+
+
+        JobDataMap dataMap = jobExecutionContext.getMergedJobDataMap();
+        String weixin = (String) dataMap.get("weixin");
+
+        System.out.println("发送微信到：" + weixin);
     }
+
 }

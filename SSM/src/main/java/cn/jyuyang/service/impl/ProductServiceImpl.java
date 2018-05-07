@@ -8,6 +8,7 @@ import cn.jyuyang.service.ProductService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
      * @return商品对象
      */
     @Override
+    @Cacheable("products")
     public Product findById(Integer id) {
         return productMapper.findById(id);
     }
