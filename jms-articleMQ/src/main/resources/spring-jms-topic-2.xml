@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="activeMQConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+    </bean>
+
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" ref="activeMQConnectionFactory"/>
+    </bean>
+
+    <bean id="jmsListenerContainerFactory" class="org.springframework.jms.config.DefaultJmsListenerContainerFactory">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="concurrency" value="3-10"/>
+
+        <property name="pubSubDomain" value="true"/>
+    </bean>
+
+    <!--<bean id="activeMQTopic" class="org.apache.activemq.command.ActiveMQTopic">-->
+        <!--<constructor-arg name="name" value="spring-topic"/>-->
+    <!--</bean>-->
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!--<property name="defaultDestination" ref="activeMQTopic"/>-->
+    </bean>
+
+    <bean id="springTopic" class="cn.jyuayng.jms.SpringTopic"/>
+
+    <!--<bean id="container" class="org.springframework.jms.listener.DefaultMessageListenerContainer">-->
+        <!--<property name="connectionFactory" ref="connectionFactory"/>-->
+        <!--<property name="destination" ref="activeMQTopic"/>-->
+        <!--<property name="messageListener" ref="springTopic"/>-->
+    <!--</bean>-->
+
+</beans>
