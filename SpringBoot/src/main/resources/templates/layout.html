@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.w3.org/1999/xhtml">
+<head >
+
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Title</title>
+</head>
+<body>
+<h1>导航条 <span th:text="${menu}"></span></h1>
+<div layout:fragment="content">
+    <!-动态内容 -->
+
+
+</div>
+
+<h3>
+    这是底部
+</h3>
+<div layout:fragment="js">
+
+</div>
+</body>
+</html>
