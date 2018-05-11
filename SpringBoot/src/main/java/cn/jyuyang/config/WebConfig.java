@@ -18,26 +18,26 @@ public class WebConfig extends WebMvcAutoConfiguration {
      * 添加拦截器
      * @param registry
      */
-    public void addInterceport(InterceptorRegistry registry){
-        registry.addInterceptor(new MyInterceport()).addPathPatterns("/*");
-
-    }
+//    public void addInterceport(InterceptorRegistry registry){
+//        registry.addInterceptor(new MyInterceport()).addPathPatterns("/*");
+//
+//    }
 
     /**
      * 添加过滤器
      * @return
      */
-    public FilterRegistrationBean addFilter(){
+  /*  public FilterRegistrationBean addFilter(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new MyFilter());
 
         filterRegistrationBean.addUrlPatterns("/*");
         return  filterRegistrationBean;
-    }
+    }*/
 
-    public ServletListenerRegistrationBean listenerRegistrationBean(){
+ /*   public ServletListenerRegistrationBean listenerRegistrationBean(){
         ServletListenerRegistrationBean servletListenerRegistrationBean = new ServletListenerRegistrationBean();
         servletListenerRegistrationBean.setListener(new MyListener());
         return servletListenerRegistrationBean;
-    }
+    }*/
 }
