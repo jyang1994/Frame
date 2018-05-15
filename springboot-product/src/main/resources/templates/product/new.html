@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/plugins/datetimepicker/css/bootstrap-datetimepicker.css">
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+           <h3 class="text-primary text-center">新增商品</h3>
+        </div>
+        <form method="post">
+            <div class="form-group">
+                <label>商品标题</label>
+                <input type="text" name="productTitle" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>商品名字</label>
+                <input type="text" name="productName" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>商品价格</label>
+                <input type="text" name="productPrice" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>市场价格</label>
+                <input type="text" name="productMarkprice" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>库充数量</label>
+                <input type="text" name="totalNum" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>开抢开始时间</label>
+                <input type="text" name="startTime" id="startTime" class="form-control">
+            </div>
+            <div class="form-group">
+                <label>结束时间</label>
+                <input type="text" name="endTime" id="endTime" class="form-control">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary" >提交</button>
+            </div>
+        </form>
+    </div>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/moment.js"></script>
+
+    <script src="/plugins/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+
+    <script src="/plugins/datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script>
+        $(function () {
+            $("#startTime,#endTime").datetimepicker({
+                format: 'yyyy-mm-dd hh:ii',
+                autoclose:true,
+                todayHighlight:true,
+                language:'zh-CN'
+            });
+        })
+    </script>
+</body>
+</html>

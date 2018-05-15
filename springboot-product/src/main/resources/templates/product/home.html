@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+    <div class="container">
+        <h3>商品列表</h3>
+        <a href="/product/new" class="btn btn-success">新增商品</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>商品标题</th>
+                    <th>商品名字</th>
+                    <th>商品价格</th>
+                    <th>市场价格</th>
+                    <th>开抢时间</th>
+                    <th>库充</th>
+                    <th>#操作</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr th:each="item:${page.list}">
+                    <td ><a th:href="@{/product/{id}/show(id=${item.id})}">[[${item.productTitle}]] </a></td>
+                    <td th:text="${item.productName}"></td>
+                    <td th:text="${item.productPrice}"></td>
+                    <td th:text="${item.productMarkprice}"></td>
+                    <td th:text="${item.startTime}"></td>
+                    <td th:text="${item.totalNum}"></td>
+                    <td>
+                       <a th:href="@{/product/{id}/edit/(id=${item.id})}">编辑</a>
+                        <a th:href="@{/product/{id}/del/(id=${item.id})}">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+</body>
+</html>
