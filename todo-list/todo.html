@@ -7,6 +7,7 @@
     <title>todolist</title>
     <link rel="stylesheet" href="css/font-awesome.css">
     <link rel="stylesheet" href="css/todo.css">
+
     <style>
         html,body{
             background-image: url(img/todo.jpg)
@@ -29,9 +30,13 @@
 
         <ul class="todoList" id="newTodoList">
             <li v-for="(todo,index) in unDonetodos" >
-                 <a href="javascript:;"><span class="checkbox" @click="changeTodoState(todo,true)"></span></a>
-                <span class="text">{{todo.title}}</span> 
-                <a href="javascript:;"  @click="delTodo(todo)" class="pull-right"><small>删除</small></a>
+           
+                <a href="javascript:;"><span class="checkbox" @click="changeTodoState(todo,true)"></span></a>
+                <span >{{todo.title}}</span> 
+                <a href="javascript:;"  @click="delTodo(todo)" class="pull-right"><small>删除</small></a> 
+                <span style="font-size:12px" class="pull-right">{{todo.time}}</span>
+                
+               
             </li>
             
         </ul>
@@ -39,10 +44,13 @@
 
         <ul class="todoList done" id="doneList" >
             <li v-for="(todo,index) in doneTodos" data="doneTodos" class="todo">
+                <p>
                 <a href="javascript:;"><span class="checkbox" @click="changeTodoState(todo,false)"></span></a>
-                <span class="text">{{todo.title}}</span>
-             
+                <span class="text">{{todo.title}} </span>
+           
                 <a href="javascript:;" @click="delTodo(todo)" class="pull-right">删除</a>
+                <span style="font-size:12px" class="pull-right">{{todo.time}}</span>
+          <p/>
             </li>
          
         </ul>
@@ -65,8 +73,15 @@
         },
         methods:{
             newTodo:function(){
-                var length =this.todos.length;
-                var todo = {title:this.title,done:false,time:new Date()};
+               var date = new Date();
+               var year = date.getFullYear();
+               var mouth = date.getMonth()+1;
+               var day = date.getDay();
+               var hour = date.getHours();
+               var minute = date.getMinutes();
+               var fmtDate = year+"-"+mouth+"-"+day+" "+hour+":"+minute;
+               console.log(fmtDate);
+                var todo = {title:this.title,done:false,time:fmtDate};
 
                 this.todos.push(todo);
                 this.title="";
