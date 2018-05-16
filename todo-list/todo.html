@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>todolist</title>
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" href="css/todo.css">
+    <style>
+        html,body{
+            background-image: url(img/todo.jpg)
+        }
+    </style>
+</head>
+<body>
+     <!-- 导航栏开始 -->
+     <div class="navbar">
+        <i class="fa fa-list"></i> TodoList
+    </div>
+    <!-- 导航栏结束 -->
+
+    <div class="container">
+        <div id="todo">
+        <div class="input_wrapper">
+            <input type="text" id="inputText" placeholder="+ 添加一个任务" v-model="title" @Keyup.enter="newTodo">
+        </div>
+        <!-- 输入框结束 -->
+
+        <ul class="todoList" id="newTodoList">
+            <li v-for="(todo,index) in unDonetodos" >
+                 <a href="javascript:;"><span class="checkbox" @click="changeTodoState(todo,true)"></span></a>
+                <span class="text">{{todo.title}}</span> 
+                <a href="javascript:;"  @click="delTodo(todo)" class="pull-right"><small>删除</small></a>
+            </li>
+            
+        </ul>
+        <!-- 未完成列表结束 -->
+
+        <ul class="todoList done" id="doneList" >
+            <li v-for="(todo,index) in doneTodos" data="doneTodos" class="todo">
+                <a href="javascript:;"><span class="checkbox" @click="changeTodoState(todo,false)"></span></a>
+                <span class="text">{{todo.title}}</span>
+             
+                <a href="javascript:;" @click="delTodo(todo)" class="pull-right">删除</a>
+            </li>
+         
+        </ul>
+        <a class="btn pull-right" href="javascript:;" @click="delAllDoneTodo">删除所有已完成任务</a>
+        <!-- 完成列表结束 -->
+    </div>
+    </div>
+    
+<!-- <script src="js/todo.js"></script> -->
+<script src="js/jquery.js"></script>
+<script src="js/vue.js"></script>
+
+<script>
+   
+    var vm = new Vue({
+        el:"#todo",
+        data:{
+            todos:[],
+            title:""
+        },
+        methods:{
+            newTodo:function(){
+                var length =this.todos.length;
+                var todo = {title:this.title,done:false,key:length};
+
+                this.todos.push(todo);
+                this.title="";
+            },
+            changeTodoState:function(todo,state){
+                todo.done=state;
+            },
+            
+             delTodo:function(todo){
+                 console.log(todo.key);
+                 for(var i=0;i<this.todos.length;i++){
+                        if(this.todos[i].title==todo.title) {
+                            this.todos.splice(i,1)
+                        }
+                 }
+                
+              },
+            // delTodo:function(doneTodos,todo){
+            //         doneTodos.splice(todo,1);
+            //     },
+             delAllDoneTodo:function(){
+                $("#doneList").html("");
+                // for(var i = 0;i<this.todos.length;i++){
+                //     if(this.todos[i].done==true){
+                //         this.todos.splice(i,1);
+                //         this.delAllDoneTodo;
+                //     }
+                // }
+             }
+        },
+        computed:{
+           
+            unDonetodos:function(){
+               
+                return this.todos.filter(function(todo){
+                    return !todo.done;
+                });
+            },
+            
+            doneTodos:function(){
+                return this.todos.filter(function(todo){
+                    return todo.done;
+                });
+            },
+           
+        }
+
+
+    })
+</script>
+</body>
+</html>
