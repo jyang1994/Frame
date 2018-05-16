@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div id="app">
+        <hello title="zex">error!</hello>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        Vue.component("hello", {
+            props:['title'],
+            data:function(){
+                return{
+                    count:0
+                }
+            },
+            template:'<p>hello,component {{title}} <slot></slot></p>'
+        })
+        new Vue({
+            el:"#app",
+            data:{},
+            methods:{
+
+            }
+        })
+    </script>
+</body>
+</html>
