@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<style>
+        .avatar-uploader .el-upload {
+          border: 1px dashed #d9d9d9;
+          border-radius: 6px;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+        }
+        .avatar-uploader .el-upload:hover {
+          border-color: #409EFF;
+        }
+        .avatar-uploader-icon {
+          font-size: 28px;
+          color: #8c939d;
+          width: 178px;
+          height: 178px;
+          line-height: 178px;
+          text-align: center;
+        }
+        .avatar {
+          width: 178px;
+          height: 178px;
+          display: block;
+        }
+        .el-tag + .el-tag {
+    margin-left: 10px;
+  }
+  .button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;}
+    .item {
+  margin-top: 10px;
+  margin-right: 40px;
+}
+      </style>
+<body>
+    <div id="app">
+        <div>
+            <el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#545c64"
+                text-color="#fff" active-text-color="#ffd04b">
+                <el-menu-item index="1">处理中心</el-menu-item>
+                <el-submenu index="2">
+                    <template slot="title">我的工作台</template>
+                    <el-menu-item index="2-1">选项1</el-menu-item>
+                    <el-menu-item index="2-2">选项2</el-menu-item>
+                    <el-menu-item index="2-3">选项3</el-menu-item>
+                    <el-submenu index="2-4">
+                        <template slot="title">选项4</template>
+                        <el-menu-item index="2-4-1">选项1</el-menu-item>
+                        <el-menu-item index="2-4-2">选项2</el-menu-item>
+                        <el-menu-item index="2-4-3">选项3</el-menu-item>
+                    </el-submenu>
+                </el-submenu>
+                <el-menu-item index="3" disabled>消息中心</el-menu-item>
+                <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
+            </div>
+
+            <div>
+                <template>
+                    <div class="block">
+                        <span class="demonstration">默认</span>
+                        <el-date-picker v-model="value1" type="date" placeholder="选择日期">
+                        </el-date-picker>
+                    </div>
+                </template>
+            </div>
+            <br>
+            <div>
+                    <el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess"
+                        :before-upload="beforeAvatarUpload">
+                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+            </div>
+            <div>
+                    <div class="block">
+                        <span class="demonstration">默认不区分颜色</span>
+                        <el-rate v-model="value1"></el-rate>
+                    </div>
+                    <div class="block">
+                        <span class="demonstration">区分颜色</span>
+                        <el-rate v-model="value2" :colors="['#99A9BF', '#F7BA2A', '#FF9900']">
+                        </el-rate>
+                    </div>
+            </div>
+            <div>
+                    <el-tag>标签一</el-tag>
+                    <el-tag type="success">标签二</el-tag>
+                    <el-tag type="info">标签三</el-tag>
+                    <el-tag type="warning">标签四</el-tag>
+                    <el-tag type="danger">标签五</el-tag>
+                    <br>
+                    <br>
+                    <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false" @close="handleClose(tag)">
+                        {{tag}}
+                    </el-tag>
+                    <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm"
+                        @blur="handleInputConfirm">
+                    </el-input>
+                    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
+            </div>
+            <div>
+                    <el-badge :value="12" class="item">
+                            <el-button size="small">评论</el-button>
+                          </el-badge>
+                          <el-badge :value="3" class="item">
+                            <el-button size="small">回复</el-button>
+                          </el-badge>
+                          
+                          <el-dropdown trigger="click">
+                            <span class="el-dropdown-link">
+                              点我查看<i class="el-icon-caret-bottom el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                              <el-dropdown-item class="clearfix">
+                                评论
+                                <el-badge class="mark" :value="12" />
+                              </el-dropdown-item>
+                              <el-dropdown-item class="clearfix">
+                                回复
+                                <el-badge class="mark" :value="3" />
+                              </el-dropdown-item>
+                            </el-dropdown-menu>
+                          </el-dropdown>
+            </div>
+            <div>
+                    <el-row>
+                            <el-button>默认按钮</el-button>
+                            <el-button type="primary" size="mini">主要按钮</el-button>
+                            <el-button type="success">成功按钮</el-button>
+                            <el-button type="info">信息按钮</el-button>
+                            <el-button type="warning">警告按钮</el-button>
+                            <el-button type="danger">危险按钮</el-button>
+                          </el-row>
+                          
+            </div>
+
+ <div>
+
+    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                value1: "",
+                value2: null,
+                imageUrl: '',
+                dynamicTags: ['标签一', '标签二', '标签三'],
+                inputVisible: false,
+                inputValue: ''
+            },
+            methods:{
+                handleClose(tag) {
+               this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
+                    },
+
+                    showInput() {
+                        this.inputVisible = true;
+                        this.$nextTick(_ => {
+                            this.$refs.saveTagInput.$refs.input.focus();
+                        });
+                    },
+
+                    handleInputConfirm() {
+                        let inputValue = this.inputValue;
+                        if (inputValue) {
+                            this.dynamicTags.push(inputValue);
+                        }
+                        this.inputVisible = false;
+                        this.inputValue = '';
+                    }
+            }
+        
+        });
+    </script>
+</body>
+
+</html>

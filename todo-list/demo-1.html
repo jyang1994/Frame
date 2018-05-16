@@ -18,10 +18,10 @@
             props:['title'],
             data:function(){
                 return{
-                    count:0
+                    count:"hello"
                 }
             },
-            template:'<p>hello,component {{title}} <slot></slot></p>'
+            template:'<p>hello,component {{count}} <slot></slot></p>'
         })
         new Vue({
             el:"#app",
