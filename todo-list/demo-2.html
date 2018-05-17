@@ -9,39 +9,77 @@
 <body>
     <div id="app">
 
-            <a href="javascript:;" @click="changePage('home')">Home</a>
+            <!-- <a href="javascript:;" @click="changePage('home')">Home</a>
             <a href="javascript:;" @click="changePage('about')">About</a>
-            <a href="javascript:;" @click="changePage('news')">News</a>
-            <keep-alive>
+            <a href="javascript:;" @click="changePage('news')">News</a> -->
+
+            <router-link to="/home">home</router-link>
+            <router-link to="/about">about</router-link>
+            <router-link to="/user/1">user1</router-link>
+            <router-link to="/user/2">user2</router-link>
+            <router-view></router-view>
+            <!-- <keep-alive>
                     <component :is="currentView"></component>
-             </keep-alive>
+             </keep-alive> -->
             </div>
 
   
     <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
     <script>
-       var vm= new Vue({
-            el:"#app",
-            data:{
-                currentView:"home"
-            },
-            components:{
-                home:{
-                    template:"<h3>HomePage</h3>"
+        var   home= {
+            template:"<h3>HomePage</h3>"
+        };
+        var  about={
+            template:"<h3>aboutPage222</h3>"
+        };
+        var user={
+            template:"<h3>User-{{ $route.params.id}}</h3>"
+        }
+        var  router = new VueRouter({
+            routes:[
+                {
+                    path:"/home",
+                    component:home
                 },
-                about:{
-                    template:"<h3>aboutPage222</h3>"
+                {
+                    path:"/about",
+                    component:about
                 },
-                news:{
-                    template:"<h3>newsPage</h3>"
-                },
-             },
-            methods:{
-                changePage:function(pageName){
-                this.currentView = pageName;
-            }
-            }
+                {
+                    path:'/user/:id',
+                    component:user
+                }
+            ]
         })
+       var vm= new Vue({
+             el:"#app",
+            router:router
+       })
+            // el:"#app",
+            // router:router,
+            // data:{
+            //     currentView:"home"
+            // },
+           
+            // components:{
+            //     // home:{
+            //     //     template:"<h3>HomePage</h3>"
+            //     // },
+            //     // about:{
+            //     //     template:"<h3>aboutPage222</h3>"
+            //     // },
+            //     // news:{
+            //     //     template:"<h3>newsPage</h3>"
+            //     // },
+
+            //  },
+            // methods:{
+            //     changePage:function(pageName){
+            //     this.currentView = pageName;
+            // }
+            // }
+      
     </script>
 </body>
 </html>

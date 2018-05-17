@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h3>{{movie.name}}</h3>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+              movie:{}  
+            },
+            mounted:function(){
+                var url = "http://localhost:9090/movie";
+                axios.get(url).then(response=>{
+                    this.movie = response.data;
+                }).catch(error=>{
+                    alert("系统异常");
+                })
+            }
+        })
+    </script>
+</body>
+</html>
